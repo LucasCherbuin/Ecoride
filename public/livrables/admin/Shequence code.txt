@@ -1,0 +1,23 @@
+@startuml
+
+actor Admin
+participant Connexion
+Participant Menu_Admin
+Participant Gestion_Utilisateur
+Participant Dashboard
+Participant Database
+
+
+Admin -> Connexion : connexion en tant qu'Admin
+Connexion -> Menu_Admin : accès au menu de l'administrateur
+Menu_Admin -> Gestion_Utilisateur : Gestion crud des utilisateurs (employer, chauffeur et passager)
+Gestion_Utilisateur -> Database : Modification d'un Utilisateur
+Database -> Gestion_Utilisateur : Validation des modification
+
+Menu_Admin ->  Dashboard : affichage des dashboards du nombre de coivoiturage par jour et de crédit gagné pour la plateforme
+Dashboard -> Menu_Admin : retour au menu Administrateur
+
+
+Menu_Admin -> Connexion : Deconnexion 
+
+@enduml

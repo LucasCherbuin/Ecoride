@@ -1,0 +1,53 @@
+@startuml
+
+actor Chauffeur
+participant Connexion
+Participant Création_de_compte
+Participant Menu_Chauffeur
+Participant Voiture
+Participant Création_Covoiturage
+Participant Covoiturage_en_cours
+Participant Historique_Covoiturage
+Participant Annulation
+Participant Préférences
+Participant Annulation
+Participant Database
+
+Chauffeur -> Connexion : Connexion avec le compte "Chauffeur"
+Connexion -> Menu_Chauffeur : accès menu "Chauffeur"
+Chauffeur -> Création_de_compte : Création d'un compte en y rentrant ses préférences (ainsi que des détails)
+Création_de_compte -> Database : Stockage du compte
+Database -> Menu_Chauffeur : Redirection au menu après création d'un compte
+Chauffeur -> Création_Covoiturage: Création d'un trajet
+
+
+
+
+Création_de_compte -> Database : Stockage de l'utilisateur "passager" inscrit
+Connexion -> Database : Récupération du compte associé
+Database -> Connexion : Vérification et connexion réussie
+
+
+Menu_Chauffeur -> Historique_Covoiturage : Afficher les voyages en cours, à prévoir ou terminés
+Historique_Covoiturage -> Annulation : Annuler un voyage en cours
+Annulation -> Database : Suppression du voyage dans la base de données
+Database -> Annulation : Confirmation de la suppression
+Annulation -> Historique_Covoiturage : Retour à l'historique des voyages
+Historique_Covoiturage -> Menu_Chauffeur : Retour au menu des passagers
+
+Menu_Chauffeur -> Voiture : Ajout ou suppression d'un nouveau véhicule
+Voiture -> Database : Modification du véhicule
+Database -> Voiture : Retour au menu des voiture
+
+Menu_Chauffeur -> Préférences : Modification des préférences du chauffeur
+Préférences -> Database : Mise a jour des données
+Database -> Préférences : retour au menu modifié
+
+Menu_Chauffeur -> Covoiturage_en_cours : Démarrer ou finir un covoiturage
+Covoiturage_en_cours -> Database : ajout de la durée du voyage après voir finit
+Database -> Covoiturage_en_cours : Changement d'état du covoiturage en "fini"
+
+
+Menu_Chauffeur -> Connexion : Déconnexion et retour au menu de connexion
+
+@enduml

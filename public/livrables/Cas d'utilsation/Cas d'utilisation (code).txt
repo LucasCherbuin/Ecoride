@@ -1,0 +1,97 @@
+@startuml
+left to right direction
+
+:Visiteur: as fc
+rectangle Page_visiteurs {
+  usecase (accueil) as UC1
+   (Connexion) as UC2  
+  (Inscription) as UC3
+  (Rechercher un covoiturage) as UC4
+  UC4 --> (détail du coivoiturage)
+}
+
+fc --> UC1
+fc --> UC2
+fc --> UC3
+fc --> UC4
+
+:Admin: as fc2
+rectangle Page_Admin {
+  usecase (Gestion des comptes) as UC5
+
+  (Dashboards) as UC6
+
+}
+
+fc2 --> UC5
+fc2 --> UC6
+
+
+:Employee: as fc3
+rectangle Page_Employee {
+  usecase (Validation des avis) as UC7
+  (Gestion des trajets Problématiques) as UC8
+}
+
+fc3 --> UC7
+fc3 --> UC8
+
+
+:Chauffeur: as fc4
+rectangle Page_Chauffeur {
+  usecase (Création  d'un covoiturage) as UC9
+  (Gestion des véhicules) as UC10 
+  (Historique de voyage ) as UC11 
+  (Annulation de voyage) as UC12
+  (Démarage et fin d'un voyage) as UC13
+  (Gestion des avis) as UC14
+  (Gestion des covoiturages) as UC15
+  (affichage des crédits disponibles)
+}
+fc4 --> UC9
+fc4 --> UC10
+fc4 --> UC11
+fc4 --> UC12
+fc4 --> UC13
+fc4 --> UC14
+fc4 --> UC15
+
+
+:Passager: as fc5
+rectangle Page_Passager {
+  usecase (affichage des crédits disponibles)
+  (Participation d'un voyage) as UC16
+  (Historique d'un voyage) as UC17
+  (Avis des passagers) as UC18
+  (Gestion du compte) as UC19
+  (Annulation d'un trajet) as UC20
+}
+
+fc5 --> UC16
+fc5 --> UC17
+fc5 --> UC18
+fc5 --> UC19
+fc5 --> UC20
+
+UC2 --> "connexion compte employé" fc3
+UC2 --> "connexion compte chauffeur" fc4
+UC2 --> "connexion compte passager" fc5 
+UC3 --> "création compte employé" fc3
+UC3 --> "création compte chauffeur" fc4
+UC3 --> "création compte passager" fc5 
+UC5 --> "Suppression compte chauffeur" fc4
+UC5 --> "Suppression compte passager" fc5
+UC5 --> "Gestion crud des comptes employés" fc3
+UC13 --> "affichage du voyage en cours" UC16
+UC12 --> "Annulation du voyage en cours" UC16
+UC18 --> "soumission d'un avis" UC7
+UC7 --> "Affichage d'un avis validé" UC4
+UC13 --> "Influence positif sur les dashboards de credits et des trajets journaliers" UC6
+UC12 --> "Influence negatif sur le dashboard des trajets journaliers" UC6
+UC20 --> "Influence negatif sur le dashboard des trajets journaliers" UC6
+UC20 --> "Ajoute une place disponible pour le véhicule" UC15
+UC13 --> "Inluence Positif sur leS dashboardS dès validation du trajet" UC6
+UC8 --> "Contact avec le chauffeur incriminé/retrait ou annulation des crédits" fc4
+UC8 --> "Reponse positif ou négatif sur le litige" fc5
+UC18 --> "Plainte avec un avis négatif" UC8
+UC9 --> "Publication sur la page dédier aux visiteurs" UC4

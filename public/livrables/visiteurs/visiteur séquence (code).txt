@@ -1,0 +1,24 @@
+@startuml
+
+actor Visiteur
+participant Accueil
+participant Covoiturage
+participant Filtre_coivoiturage
+participant Participation_coivoturage
+participant Connexion
+participant Création_de_compte
+participant Contact
+participant Database
+
+Visiteur -> Accueil : accès accueil du site
+Accueil -> Covoiturage : saisie d'un itinéraire
+Covoiturage -> Participation_coivoturage : choix du chauffeur
+Covoiturage -> Filtre_coivoiturage : Filtrage des Chauffeurs selon des attentes
+Filtre_coivoiturage -> Participation_coivoturage : choix du chauffeur
+Participation_coivoturage -> Connexion : Redirection pour se connecter avec un compte "passagé"
+Connexion -> Participation_coivoturage : Redirection en tant qu'utilisateur "passagé"
+Participation_coivoturage -> Création_de_compte : Redirection pour se créer un compte "passagé"
+Création_de_compte -> Database : enregistrement du nouveau compte
+Database -> Création_de_compte : changement de role "passagé"
+Création_de_compte -> Participation_coivoturage: Redirection en tant qu'utilisateur "passagé"
+@enduml

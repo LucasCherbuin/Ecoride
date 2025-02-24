@@ -1,0 +1,40 @@
+@startuml
+
+actor Passager
+participant Connexion
+Participant Création_de_compte
+Participant Participation_Covoiturage
+Participant Menu_Passager
+Participant Avis
+Participant Historique_Voyage
+Participant Annulation
+Participant Database
+
+Passager -> Connexion : Connexion avec le compte "Passager"
+Passager -> Création_de_compte : Création d'un compte en y rentrant ses préférences
+Passager -> Participation_Covoiturage: Accès à un chauffeur
+Participation_Covoiturage -> Database : Vérification du crédit et des places disponibles
+Database -> Participation_Covoiturage : Validation comme passager du trajet
+
+Création_de_compte -> Database : Stockage de l'utilisateur "passager" inscrit
+Connexion -> Database : Récupération du compte associé
+Database -> Connexion : Vérification et connexion réussie
+
+Database -> Menu_Passager : Redirection de l'utilisateur "passager" inscrit
+Passager -> Menu_Passager : Accès au menu des utilisateurs "passager"
+
+Menu_Passager -> Avis : Laisser un avis sur le voyage effectué
+Avis -> Database : Stockage de l'avis pour validation
+Database -> Avis : Confirmation de l'enregistrement de l'avis
+Avis -> Menu_Passager : Retour au menu des passagers
+
+Menu_Passager -> Historique_Voyage : Afficher les voyages en cours, à prévoir ou terminés
+Historique_Voyage -> Annulation : Annuler un voyage en cours
+Annulation -> Database : Suppression du voyage dans la base de données
+Database -> Annulation : Confirmation de la suppression
+Annulation -> Historique_Voyage : Retour à l'historique des voyages
+
+Historique_Voyage -> Menu_Passager : Retour au menu des passagers
+Menu_Passager -> Connexion : Déconnexion et retour au menu de connexion
+
+@enduml
