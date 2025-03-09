@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
-@vite(['resources/css/app.css', 'resources/js/app.js'])
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
