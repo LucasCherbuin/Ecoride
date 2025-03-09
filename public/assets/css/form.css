@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+.custom-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px; /* Espacement entre les éléments */
+    width: 500px;
+    max-width: 400px;
+    margin: 20px auto; /* Centrer le formulaire */
+    padding: 20px;
+    border-radius: 50px;
+}
+
+/* Style des champs input */
+.form-input {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent !important;
+    font-family: 'Anonymous Pro', monospace;
+    border-color: #4CAF50;
+    color: black;
+    border-radius: 60px;
+    font-size: 15px;
+    outline: none;
+
+}
+
+/* Style du bouton */
+.form-button {
+    width: 95%;
+    font-family: 'Anonymous Pro', monospace;
+    padding: 12px;
+    background: #4CAF50;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: 0.3s;
+}

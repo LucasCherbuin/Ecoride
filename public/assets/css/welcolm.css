@@ -1,0 +1,85 @@
+/* Style global */
+body {
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Texte principal */
+p {
+    font-size: 14px;
+    max-width: 80%;
+    margin: 10px auto;
+}
+
+/* Conteneur d'images en grille */
+.accueil {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+    grid-template-rows: repeat(2, 1fr);    /* 2 lignes */
+    gap: 10px;
+    width: 250px;
+    height: 250px;
+    margin: 20px auto;
+}
+
+/* Images */
+.image-box {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Disposition des images en desktop */
+.image-box:nth-child(2) { /* Image de la voiture électrique */
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.image-box:nth-child(1) { /* Image de la voiture dans les vignes (verticale) */
+    grid-column: 2 / 3;
+    grid-row: 1 / 3; /* S'étend sur 2 lignes */
+}
+
+.image-box:nth-child(3) { /* Image des voyageurs */
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+/* Formulaire */
+.recherche {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    margin: 20px auto;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+    /* Adapter la grille en une seule colonne */
+    .accueil {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        height: auto;
+        align-items: center;
+    }
+
+    /* Toutes les images en pleine largeur */
+    .image-box {
+        width: 90%;
+        height: auto;
+    }
+
+    /* Formulaire ajusté */
+    .recherche {
+        width: 90%;
+    }
+
+    .form-input {
+        width: 100%;
+    }
+}
