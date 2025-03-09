@@ -1,11 +1,12 @@
-<link href="{{ asset('assets/css/form.css') }}" rel="stylesheet">
-<link href="/build/assets/app.css" rel="stylesheet">
 
-@vite('resources/css/app.css')
+
 @livewireStyles
 @extends('base')
 @extends('layouts.app')
 @section('content')
+<link href="{{ asset('assets/css/form.css') }}" rel="stylesheet">
+
+<link href="/build/assets/app.css" rel="stylesheet">
 
 <div>
     <div>

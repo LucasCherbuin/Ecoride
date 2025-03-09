@@ -1,3 +1,4 @@
+<link href="{{ asset('assets/css/annonce.css') }}" rel="stylesheet">
 <div>
     <!-- Affichage des résultats -->
     <div>
