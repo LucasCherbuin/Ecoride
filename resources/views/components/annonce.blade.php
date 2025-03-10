@@ -1,4 +1,5 @@
 <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<link href="{{ asset('assets/css/annonce.css') }}" rel="stylesheet">
 <div class="annonce">
     <div class="profile">
         {{ $image }} {{ $note }} {{ $pseudo }}

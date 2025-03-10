@@ -40,3 +40,43 @@
     cursor: pointer;
     transition: 0.3s;
 }
+
+#filtreCovoiturage {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filtre-button{
+    background-color: transparent !important;
+    font-family: 'Anonymous Pro', monospace;
+    border-color: #4CAF50;
+    color: black;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid green;
+    padding: 10px;
+    min-width: 100px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.filterSelection{
+    background-color: #4CAF50;
+}
+
+.filtre-button input {
+    border: none;
+    text-align: center;
+    font-size: 14px;
+    width: 60px;
+    margin-top: 5px;
+}
+
+input {
+    background-color: transparent !important;
+}

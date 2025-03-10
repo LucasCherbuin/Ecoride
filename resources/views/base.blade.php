@@ -14,7 +14,7 @@
             <nav class="navbar">
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-item" href="welcome">
+                        <a class="nav-item" href="/">
                             <i class="ph ph-house-line"></i><span class="sr-only"></span>
                         </a>
                         <a class="nav-item" href="covoiturage">
@@ -39,6 +39,8 @@
 
     <main>
         @yield('content')
+
+        @livewireScripts
     </main>
 
     <footer>
@@ -48,7 +50,6 @@
 
     <!-- Ajouter des scripts JS -->
     <script src="{{ asset('js/app.js') }}"></script>
-    @livewireScripts
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-<link href="{{ asset('assets/css/welcolm.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/css/welcome.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/css/form.css') }}" rel="stylesheet">
 @extends('base')
 

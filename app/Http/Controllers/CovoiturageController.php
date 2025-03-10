@@ -41,7 +41,8 @@ class CovoiturageController extends Controller
             return response()->json(['message' => 'Covoiturage non trouvé'], 404);
         }
 
-        return response()->json($covoiturage);
+        return view('components.annonce', compact('covoiturage'));
+
     }
 
     public function update(Request $request, $id)
