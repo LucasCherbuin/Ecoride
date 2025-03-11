@@ -22,29 +22,30 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
-        ->name('password.reset');
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
 
-    Route::post('reset-password', [NewPasswordController::class, 'store'])
-        ->name('password.store');
-});
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/admin', function () {
+            return view('Menu-admin');
+        });
+    });
 
-Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
 
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
+    Route::middleware(['auth', 'role:employee'])->group(function () {
+        Route::get('/employee', function () {
+            return view('Menu-employee');
+        });
+    });
 
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
-
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-        ->name('password.confirm');
-
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
+    Route::middleware(['auth', 'role:conducteur', 'role:passager', 'role:user'])->group(function () {
+        Route::get('/user', function () {
+            return view('Menu-utilisateur');
+        });
+    });
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
