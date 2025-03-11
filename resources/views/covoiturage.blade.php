@@ -36,7 +36,10 @@
             </form>
         </div>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> features/loginRegister
 <div>
     <!-- Affichage des résultats -->
     <div>
