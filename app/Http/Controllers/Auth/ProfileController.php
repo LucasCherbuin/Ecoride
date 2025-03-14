@@ -17,7 +17,7 @@ class ProfileController extends Controller
 {
 
 
-    public function storeEmployee(Request $request): RedirectResponse
+    public function index(Request $request): RedirectResponse
     {
         $request->validate([
             'pseudo' => ['required', 'string', 'max:255'],
@@ -36,7 +36,7 @@ class ProfileController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('profile.index', absolute: false));
     }
     /**
      * Display the user's profile form.
