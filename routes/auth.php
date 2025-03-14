@@ -22,11 +22,7 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
-    Route::middleware('auth')->group(function () {
-        Route::get('/admin/profil', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/admin/profil', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/admin/profil', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    });
+
 
     Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/Menu-admin', function () {

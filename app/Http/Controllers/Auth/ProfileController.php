@@ -17,7 +17,19 @@ class ProfileController extends Controller
 {
 
 
-    public function index(Request $request): RedirectResponse
+    public function index()
+    {
+        $user = User::all();
+        return view('profile.index', compact('admin/'));
+    }
+
+    public function create(): View
+    {
+        return view('profil.create');
+    }
+
+
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'pseudo' => ['required', 'string', 'max:255'],
@@ -36,7 +48,7 @@ class ProfileController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('profile.index', absolute: false));
+        return redirect(route('profile.store', absolute: false));
     }
     /**
      * Display the user's profile form.
