@@ -1,0 +1,100 @@
+
+/* Style du tableau */
+table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border-bottom: 1px solid #6a9f38;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    font-weight: bold;
+}
+
+/* Style des lignes */
+tbody tr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #6a9f38;
+    border-radius: 10px;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+/* Ajustement des colonnes */
+td {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+/* Boutons actions */
+td a, td form button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px;
+    color: black;
+}
+
+td form {
+    display: inline;
+}
+
+td a i, td form button i {
+    font-size: 22px;
+}
+
+td a:hover, td form button:hover {
+    color: #6a9f38;
+}
+
+/* Bouton Ajouter (flottant) */
+.button-group {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+.button {
+    background-color: #6a9f38;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.button:hover {
+    background-color: #4d7a29;
+}
+
+/* Bouton Retour */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #6a9f38;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-button i {
+    color: white;
+    font-size: 20px;
+}

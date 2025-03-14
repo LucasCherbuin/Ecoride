@@ -1,5 +1,5 @@
 @extends ('base')
-<link rel="stylesheet" href="{{ asset('assets/css/menu.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/crud.css') }}">
 <div>
     <script>
         // Configuration des boutons avec Twig pour générer les URLs côté serveur
