@@ -9,6 +9,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/profil', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/admin/profil', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/admin/profil', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/admin/profil', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.form');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
