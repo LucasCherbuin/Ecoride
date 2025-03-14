@@ -70,6 +70,7 @@ return new class extends Migration
             $table->string('arrivee');
             $table->date('date');
             $table->time('heure');
+            $table->int('prix');
             $table->boolean('ecologique')->default(false);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('conducteur_id')->constrained('conducteurs')->onDelete('cascade');
