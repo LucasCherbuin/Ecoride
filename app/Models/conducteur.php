@@ -12,9 +12,7 @@ class Conducteur extends Model
     protected $fillable = [
         'id',
         'immatricullation',
-        'energie',
-        'DateImmatriculation',
-        'nbPlace'
+        'dateImmatriculation'
     ];
 
     public function preference()

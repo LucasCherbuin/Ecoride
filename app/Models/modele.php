@@ -14,7 +14,8 @@ class Modele extends Model
         'modele',
         'marque',
         'couleur',
-        'energieVerte'
+        'nombres_places',
+        'energie'
     ];
 
     public function users()

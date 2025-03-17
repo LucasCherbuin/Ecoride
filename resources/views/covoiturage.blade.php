@@ -36,12 +36,9 @@
             </form>
         </div>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> features/loginRegister
 <div>
-    <!-- Affichage des résultats -->
+    @include('components.annonce')
+
     <div>
         @if(!empty($covoiturages) && count($covoiturages) > 0)
             @foreach ($covoiturages as $covoiturage)

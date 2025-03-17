@@ -2,47 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\CovoiturageRequest;
 use App\Models\Covoiturage;
+use App\Models\Modele;
 use Illuminate\Http\Request;
 
 class CovoiturageController extends Controller
 {
     public function index()
     {
-        // Récupérer les annonces depuis la base de données
-        $covoiturages = Covoiturage::with('avis')->get(); // Assurez-vous que le modèle Covoiturage a une relation 'avis'
-
-        // Passer la variable $covoiturages à la vue
+        // Récupération de tous les covoiturages avec leurs modèles associés (si relation définie)
+        $covoiturages = Covoiturage::with('modeles')->get();
         return view('covoiturage.index', compact('covoiturages'));
     }
 
-
-
-    public function store(Request $request)
+    public function store(CovoiturageRequest $request)
     {
-        $validatedData = $request->validate([
-            'immatriculation' => 'required|string|max:7',
-            'energie' => 'required|string|max:10',
-            'DateImmatriculation' => 'required|date',
-            'nb_place' => 'required|integer|min:1|max:10'
+        // Création du covoiturage
+        $covoiturage = Covoiturage::create([
+            'depart' => $request->depart,
+            'arrive' => $request->arrive,
+            'heure' => $request->heure,
+            'EnergieVerte' => $request->EnergieVerte ?? false,
         ]);
 
-        $covoiturage = Covoiturage::create($validatedData);
+        // Vérifier si un véhicule doit être ajouté
+        if ($request->filled(['modele', 'marque', 'couleur', 'nombre_places', 'energie'])) {
+            $modele = Modele::create([
+                'modele' => $request->modele,
+                'marque' => $request->marque,
+                'couleur' => $request->couleur,
+                'nombre_places' => $request->nombre_places,
+                'energie' => $request->energie,
+            ]);
 
-        return response()->json($covoiturage, 201);
+            // Associer le véhicule au covoiturage si une relation existe
+            if (method_exists($covoiturage, 'modeles')) {
+                $covoiturage->modeles()->attach($modele->id);
+            }
+        }
+
+        return redirect()->route('covoiturage.index')->with('success', 'Covoiturage enregistré avec succès.');
     }
 
     public function show($id)
     {
-        $covoiturage = Covoiturage::find($id);
+        $covoiturage = Covoiturage::with('modeles')->find($id);
 
         if (!$covoiturage) {
             return response()->json(['message' => 'Covoiturage non trouvé'], 404);
         }
 
         return view('components.annonce', compact('covoiturage'));
-
     }
 
     public function update(Request $request, $id)
@@ -54,10 +65,10 @@ class CovoiturageController extends Controller
         }
 
         $validatedData = $request->validate([
-            'immatriculation' => 'sometimes|string|max:7',
-            'energie' => 'sometimes|string|max:10',
-            'DateImmatriculation' => 'sometimes|date',
-            'nb_place' => 'sometimes|integer|min:1|max:10'
+            'depart' => 'sometimes|string',
+            'arrive' => 'sometimes|string',
+            'heure' => 'sometimes',
+            'EnergieVerte' => 'sometimes|boolean',
         ]);
 
         $covoiturage->update($validatedData);
@@ -78,3 +89,4 @@ class CovoiturageController extends Controller
         return response()->json(['message' => 'Covoiturage supprimé avec succès']);
     }
 }
+

@@ -15,7 +15,7 @@ class Covoiturage extends Model
         'arrive',
         'prix',
         'time',
-        'ecologique',
+        'energie_verte',
         'creation',];
 
     public function users()

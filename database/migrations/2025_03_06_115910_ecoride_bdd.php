@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('modele');
             $table->string('marque');
             $table->string('couleur');
+            $table->integer('nombres_places')->default(0);
             $table->string('energie');
             $table->timestamps();
         });
@@ -58,7 +59,6 @@ return new class extends Migration
             $table->string('immatriculation', 10)->unique();
             $table->string('energie', 20);
             $table->date('date_immatriculation');
-            $table->integer('nombres_places')->default(0);
             $table->foreignId('modele_id')->constrained('modeles')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
