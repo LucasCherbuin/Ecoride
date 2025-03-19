@@ -1,4 +1,6 @@
-<link href="{{ mix('css/form.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+
 
 <x-guest-layout>
     <form method="POST" action="{{ route('login') }}" class="custom-form">
@@ -28,7 +30,7 @@
                 {{ __('Log in') }}
             </button>¨
             <button type="submit" class="form-button ms-4">
-                {{ __('/Register') }}
+                {{ __('Register') }}
             </button>
         </div>
     </form>

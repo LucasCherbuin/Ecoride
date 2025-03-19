@@ -32,4 +32,9 @@ class Covoiturage extends Model
     {
         return $this->hasOne(Status::class);
     }
+
+    public function avis()
+    {
+        return $this->hasMany(Avis::class);
+    }
 }

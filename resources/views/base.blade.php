@@ -24,7 +24,7 @@
                                 <i class="ph ph-user-circle"></i>
                             </a>
                         @else
-                            <a class="nav-item" href="connexion">
+                            <a class="nav-item" href="login">
                                 <i class="ph ph-user-circle-plus"></i>
                             </a>
                         @endif

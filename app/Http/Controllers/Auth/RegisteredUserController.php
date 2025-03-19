@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use \App\Http\Controllers\Controller;
+
+
+use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -29,22 +31,27 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Validation des données envoyées
         $request->validate([
             'pseudo' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Création de l'utilisateur
         $user = User::create([
-            'psuedo' => $request->pseudo,
+            'pseudo' => $request->pseudo,  // Correction ici
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
+        // Déclenchement de l'événement de l'enregistrement
         event(new Registered($user));
 
+        // Connexion de l'utilisateur
         Auth::login($user);
 
+        // Redirection après l'enregistrement
         return redirect(route('menu-utilisateur', absolute: false));
     }
 }

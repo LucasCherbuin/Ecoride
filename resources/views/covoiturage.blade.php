@@ -41,28 +41,31 @@
 
     <div>
         @if(!empty($covoiturages) && count($covoiturages) > 0)
-            @foreach ($covoiturages as $covoiturage)
-                <x-annonce
-                    :image="$covoiturage->image"
-                    :note="$covoiturage->note"
-                    :pseudo="$covoiturage->pseudo"
-                    :date="$covoiturage->date"
-                    :heure="$covoiturage->heure"
-                    :depart="$covoiturage->depart"
-                    :arrive="$covoiturage->arrive"
-                    :prix="$covoiturage->prix"
-                    :nombrePlaces="$covoiturage->nombrePlaces"
-                    :energieVerte="$covoiturage->energieVerte"
-                    :fumeur="$covoiturage->fumeur"
-                    :animal="$covoiturage->animal"
-                    :immatriculation="$covoiturage->immatriculation"
-                    :detail="$covoiturage->detail"
-                    :marque="$covoiturage->marque"
-                    :modele="$covoiturage->modele"
-                    :energie="$covoiturage->energie"
-                    :avis="$covoiturage->avis"
-                />
-            @endforeach
+        @foreach ($covoiturages as $covoiturage)
+        <x-annonce
+            :depart="$covoiturage->depart"
+            :arrive="$covoiturage->arrive"
+            :date="$covoiturage->date"
+            :heure="$covoiturage->heure"
+            :ecologique="$covoiturage->ecologique"
+            :creation="$covoiturage->created_at"
+            :image="$covoiturage->user->image ?? asset('assets/pictures/default.png')"
+            :note="$covoiturage->user->note ?? 'Non noté'"  <!-- Assurez-vous de bien obtenir la note ici -->
+            :pseudo="$covoiturage->user->pseudo ?? 'Anonyme'"
+            :prix="$covoiturage->prix"
+            :nombrePlaces="$covoiturage->nombre_places"
+            :fumeur="$covoiturage->fumeur"
+            :animal="$covoiturage->animal"
+            :immatriculation="$covoiturage->immatriculation"
+            :detail="$covoiturage->detail"
+            :marque="$covoiturage->marque"
+            :modele="$covoiturage->modele"
+            :couleur="$covoiturage->couleur"
+            :energie="$covoiturage->energie"
+            :avis="$covoiturage->avis"  <!-- Avis liés au covoiturage -->
+        />
+    @endforeach
+
         @else
             <p>Aucune annonce trouvée.</p>
         @endif
