@@ -1,0 +1,95 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.table {
+    width: 90%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.annonce-card {
+    display: flex;
+    background-color: #a6e08c;
+    border-radius: 10px;
+    padding: 10px;
+    width: 280px;
+    position: relative;
+}
+
+.annonce-card .header {
+    display: flex;
+    align-items: center;
+}
+
+.annonce-card .header img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.annonce-card .header .stars {
+    font-size: 14px;
+    color: gold;
+}
+
+.reserve-btn {
+    background-color: #fff;
+    color: #000;
+    border-radius: 8px;
+    padding: 3px 10px;
+    border: 1px solid #000;
+    font-size: 12px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.info {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.price .icon {
+    font-size: 16px;
+}
+
+.btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-success {
+    background-color: #4caf50;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #d9534f;
+    color: white;
+}
+
+.btn i {
+    font-size: 20px;
+}

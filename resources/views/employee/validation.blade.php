@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @extends('base')
 @section('content')
+<link rel="stylesheet" href="{{ asset('assets/css/avis.css') }}">
 <div class="container">
     <table class="table">
         <thead>
