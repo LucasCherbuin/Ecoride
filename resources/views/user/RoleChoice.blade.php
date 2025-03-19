@@ -1,5 +1,4 @@
 @extends('base')
-
 @section('content')
 <form action="{{ route('choisir.role') }}" method="POST">
     @csrf

@@ -7,10 +7,10 @@
     @csrf
     <input class="form-input" type="email" name="email" placeholder="email" value="{{ old('name') }}">
     @error('email') <p style="color: red;"{{ $message }}</p> @enderror
-
+    @csrf
     <input class="form-input" type="text" name="title" placeholder="titre" value="{{ old('title') }}">
     @error('titre') <p style="color: red;"{{ $message }}</p> @enderror
-
+    @csrf
     <textarea class="form-input" name="message" placeholder="message">{{ old('message') }}</textarea>
     @error('message') <p style="color: red;"{{ $message }}</p> @enderror
 
