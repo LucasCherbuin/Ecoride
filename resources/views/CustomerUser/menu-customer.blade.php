@@ -1,19 +1,18 @@
-@extends ('base')
-<link rel="stylesheet" href="{{ asset('assets/css/crud.css') }}">
+@extends('base')
+<link rel="stylesheet" href="{{ asset('assets/css/menu.css') }}">
 <div>
     <script>
-
         window.buttonConfig = [
-            @if (Auth::ROLE_USER())
-            { link: "{{ path('CustomerUser/RoleAttribution') }}", icon: 'ph ph-user-check', description: "Validation" },
-            @elseif (Aunt::ROLE_CONDUCTEUR())
-            { link: "{{ path('CustomerUser/annonceCreation') }}", icon: 'ph ph-signpost', description: "Creation annonce" },
-            { link: "{{ path('CustomerUser/gestionTrajet') }}", icon: 'ph ph-car-profile', description: "gestion des trajets" },
-            { link: "{{ path('CustomerUser/trajet') }}", icon: 'ph ph-flag-banner', description: "trajet en cours" },
-            @else (Aunt::ROLE_PASSAGER()
-            { link: "{{ path('CustomerUser/gestionTrajet') }}", icon: 'ph ph-signpost', description: "trajet en cours" },
-            { link: "{{ path('CustomerUser/avis') }}", icon: 'ph ph-star', description: "avis" },
-        )
+            @if (Auth::user()->hasRole('ROLE_USER'))
+            { link: "{{ route('CustomerUser.RoleAttribution') }}", icon: 'ph ph-user-check', description: "Validation" },
+            @elseif (Auth::user()->hasRole('ROLE_CONDUCTEUR'))
+            { link: "{{ route('CustomerUser.annonceCreation') }}", icon: 'ph ph-signpost', description: "Création annonce" },
+            { link: "{{ route('CustomerUser.gestionTrajet') }}", icon: 'ph ph-car-profile', description: "Gestion des trajets" },
+            { link: "{{ route('CustomerUser.trajet') }}", icon: 'ph ph-flag-banner', description: "Trajet en cours" },
+            @elseif (Auth::user()->hasRole('ROLE_PASSAGER'))
+            { link: "{{ route('CustomerUser.gestionTrajet') }}", icon: 'ph ph-signpost', description: "Trajet en cours" },
+            { link: "{{ route('CustomerUser.avis') }}", icon: 'ph ph-star', description: "Avis" },
+            @endif
         ];
 
         // Génération dynamique des boutons
@@ -27,7 +26,7 @@
         });
     </script>
 
-    <button class="footer-button" herf="logout">
+    <button class="footer-button" href="{{ route('logout') }}">
         <i class="ph ph-door"></i>
     </button>
 </div>

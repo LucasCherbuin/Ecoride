@@ -25,6 +25,21 @@
     outline: none;
 
 }
+.form-button-ms-4{
+    width: 95%;
+    font-family: 'Anonymous Pro', monospace;
+    padding: 12px;
+    background: white;
+    font-size: 15px;
+    font-weight: bold;
+    border: #4CAF50;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: 0.3s;
+
+}
+
+
 
 /* Style du bouton */
 .form-button {

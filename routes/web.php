@@ -5,10 +5,11 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RoleChoiceController;
 use App\Http\Livewire\RechercheCovoiturage;
 require base_path('routes/auth.php');
-require base_path('routes/pageConducteur.php');
+require base_path('routes/pageCustomer.php');
 require base_path('routes/pageEmployee.php');
 require base_path('routes/pagesAdmin.php');
 require base_path('routes/pagesVisiteurs.php');
+
 Route::get('/', function () {
     return view('welcome');
 });

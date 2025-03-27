@@ -9,17 +9,24 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!Auth::check() || !Auth::user()->hasRole($role)) {
+        // Vérifier si l'utilisateur est authentifié
+        if (!Auth::check()) {
             abort(403, 'Accès interdit');
         }
 
+        // Vérifier si l'utilisateur a un des rôles spécifiés
+        $user = Auth::user()->roles->pluck('label')->toArray(); // Assuming your roles are stored as an array
+        if (!array_intersect($user, $roles)) {
+            abort(403, 'Vous n\'avez pas l\'autorisation pour accéder à cette page');
+        }
+
+        // Si l'utilisateur a un rôle approprié, on passe à la suite
         return $next($request);
     }
 }
+
+
+
+

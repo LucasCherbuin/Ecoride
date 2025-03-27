@@ -69,7 +69,8 @@ return new class extends Migration
             $table->string('depart');
             $table->string('arrivee');
             $table->date('date');
-            $table->time('heure');
+            $table->time('heure_depart');
+            $table->time('heure_arrive');
             $table->int('prix');
             $table->boolean('ecologique')->default(false);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');

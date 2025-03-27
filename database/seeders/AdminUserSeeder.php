@@ -18,7 +18,7 @@ class AdminUserSeeder extends Seeder
             'email' => 'admin@ecoride.com',
         ], [
             'pseudo' => 'Admin',
-            'password' => Hash::make('motdepasse'), // Change le mot de passe
+            'password' => Hash::make('1234'),
             'role_id' => $adminRole->id,
         ]);
     }

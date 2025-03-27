@@ -15,15 +15,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
-//création d'un utilisateur pour la clientèle
-class RegisteredUserController extends Controller
+class RegisteredEmployeController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
-    public function create(): View
+
+public function createEmploye(): View
     {
-        return view('auth.register');
+        return view('admin.userCreation.create');
     }
 
     /**
@@ -31,7 +28,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function storeEmploye(Request $request): RedirectResponse
     {
         // Validation des données envoyées
         $request->validate([
@@ -40,15 +37,15 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Création de l'utilisateur
+        // Création de l'utilisateur employee
         $user = User::create([
-            'pseudo' => $request->pseudo,  // Correction ici
+            'pseudo' => $request->pseudo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
         // Assigner le rôle "ROLE_EMPLOYEE" à l'utilisateur
-        $role = Role::where('label', 'ROLE_USER')->first();
+        $role = Role::where('label', 'ROLE_EMPLOYE')->first();
         if ($role) {
             $user->role()->associate($role);
             $user->save();
@@ -57,11 +54,8 @@ class RegisteredUserController extends Controller
         // Déclenchement de l'événement de l'enregistrement
         event(new Registered($user));
 
-        // Connexion de l'utilisateur
-        Auth::login($user);
 
         // Redirection après l'enregistrement
-        return redirect(route('user.menu-customer', absolute: false));
+        return redirect(route('admin.userCreation.index', absolute: false));
     }
 }
-

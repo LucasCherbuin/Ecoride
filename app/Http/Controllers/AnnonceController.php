@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Covoiturage;
 use App\Models\Avis;
+use App\Models\Modele;
 
 class AnnonceController extends Controller
 {
-    public function index()
+    public function show()
     {
-        // Récupérer les annonces avec les relations user et avis
-        $covoiturages = Covoiturage::with(['user', 'avis'])->get();
-        $avis = Avis::all();
+        // Récupérer les avis, covoiturages et modèles depuis la base de données
+        $avis = Avis::all();  // Récupère tous les avis
+        $covoiturages = Covoiturage::all();  // Récupère tous les covoiturages
+        $modeles = Modele::all();  // Récupère tous les modèles
 
-        return view('annonces.index', compact('covoiturages', 'avis'));
+        // Passer les données à la vue
+        return view('components.annonce', compact('avis', 'covoiturages', 'modeles'));
     }
 }

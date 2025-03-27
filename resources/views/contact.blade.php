@@ -1,6 +1,7 @@
-<link href="{{ asset('assets/css/form.css') }}" rel="stylesheet">
-@extends('base')
 
+<link href="{{ asset('assets/css/form.css') }}" rel="stylesheet">
+
+@extends('base')
 @section('content')
 
 <form class="custom-form" action="{{ route('contact.send')}}" method="POST">

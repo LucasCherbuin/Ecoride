@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,13 +20,13 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $user = User::all();
-        return view('profile.index', compact('admin/'));
+        $users = User::all();
+        return view('admin.userCreation.index', compact('users'));
     }
 
     public function create(): View
     {
-        return view('profil.create');
+        return view('admin.userCreation.create');
     }
 
 
@@ -33,29 +34,37 @@ class ProfileController extends Controller
     {
         $request->validate([
             'pseudo' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'role' => ['required', 'exists:roles,id'],  // Validation que le rôle existe dans la table 'roles'
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Créer un nouvel utilisateur
         $user = User::create([
-            'name' => $request->name,
+            'name' => $request->pseudo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role
         ]);
 
+        // Associer un rôle à l'utilisateur
+        $role = Role::findOrFail(5);  // Récupère le rôle avec l'ID 5, ou échoue si ce rôle n'existe pas
+
+        // Associer ce rôle à l'utilisateur
+        $user->roles()->attach($role);  // On associe le rôle à l'utilisateur
+
+        // Événement d'enregistrement d'un utilisateur
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(route('profile.store', absolute: false));
+        // Rediriger vers une page de confirmation ou de gestion des utilisateurs
+        return redirect(route('admin.userCreation.index'));
     }
+
     /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        return view('admin.userCreation.edit', [
             'user' => $request->user(),
         ]);
     }
@@ -73,7 +82,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('admin.userCreation.edit')->with('status', 'profile-updated');
     }
 
     /**
@@ -94,6 +103,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('admin.userCreation');
     }
 }

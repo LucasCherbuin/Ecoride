@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use Illuminate\Support\Collection;
 
 class Annonce extends Component
 {
@@ -27,12 +28,14 @@ class Annonce extends Component
     public $energie;
     public $avis;
 
-
+    /**
+     * Constructeur du composant Annonce
+     */
     public function __construct(
         $depart, $arrive, $date, $heure, $ecologique, $creation,
         $image, $note, $pseudo, $prix, $nombrePlaces, $fumeur,
         $animal, $immatriculation, $detail, $marque, $modele,
-        $couleur, $energie, $avis
+        $couleur, $energie, $avis = []
     ) {
         $this->depart = $depart;
         $this->arrive = $arrive;
@@ -40,7 +43,7 @@ class Annonce extends Component
         $this->heure = $heure;
         $this->ecologique = $ecologique;
         $this->creation = $creation;
-        $this->image = $image;
+        $this->image = $image ?? asset('assets/pictures/default.jpg');
         $this->note = $note;
         $this->pseudo = $pseudo;
         $this->prix = $prix;
@@ -53,9 +56,12 @@ class Annonce extends Component
         $this->modele = $modele;
         $this->couleur = $couleur;
         $this->energie = $energie;
-        $this->avis = $avis;
+        $this->avis = is_array($avis) ? $avis : ($avis instanceof Collection ? $avis->toArray() : []);
     }
 
+    /**
+     * Retourne la vue du composant
+     */
     public function render()
     {
         return view('components.annonce');

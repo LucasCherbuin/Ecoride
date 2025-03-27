@@ -1,43 +1,58 @@
+@extends('base')
+
+@section('content')
 <div class="annonce">
     <div class="profile">
-        <img src="{{ $image ?? asset('assets/pictures/') }}" alt="Profil">
-        {{ $note }} {{ $pseudo }}
+        <!-- Affichage des avis -->
+        @foreach ($avis as $avisItem)
+            <img src="{{ $avisitem->image ?? asset('assets/pictures/default.png') }}" alt="Profil">
+            <p>{{ $avisItem->note }} ⭐ - {{ $avisItem->pseudo }}</p>
+        @endforeach
     </div>
-    <button type="button"> réserver <i class="ph ph-calendar-plus"></i></button>
 
+    <button type="button">Réserver <i class="ph ph-calendar-plus"></i></button>
+
+    <!-- Affichage des informations de covoiturage -->
+    @foreach ($covoiturages as $covoiturage)
     <div class="principal">
-        {{ $date }} {{ $heure }}
-        <p>trajet</p>
-        {{ $depart }} {{ $arrive }}
+        <p>{{ $covoiturage->date }} à {{ $covoiturage->heure }}</p>
+        <p>Trajet : {{ $covoiturage->depart }} → {{ $covoiturage->arrive }}</p>
     </div>
 
-    <div class="detail">
-        {{ $prix }} {{ $nombrePlaces }} {{ $energie }}
-    </div>
-    <div class="accordion-detail">
-        <!-- More details -->
-    </div>
+    <!-- Affichage des détails du modèle -->
+        @foreach ($modeles as $modele)
+        <div class="detail">
+            <p>{{ $modele->prix }} € - {{ $modele->nombrePlaces }} places - Énergie : {{ $modele->energie }}</p>
+        </div>
+        <div class="accordion-detail">
+            <!-- Plus de détails ici -->
+        </div>
+        @endforeach
+    @endforeach
 
+    <!-- Section des avis -->
     <div class="avis">
         <div class="Carousel-controls">
             <a class="carousel-control-prev" href="#avisCarousel" role="button" data-bs-slide="prev">
                 <i class="ph ph-caret-left"></i>
             </a>
-            <p>avis</p>
+            <p>Avis</p>
             <a class="carousel-control-next" href="#avisCarousel" role="button" data-bs-slide="next">
                 <i class="ph ph-caret-right"></i>
             </a>
         </div>
 
-        @foreach ($avis as $unAvis)
+        <!-- Affichage des avis validés -->
+        @foreach ($avis as $avisItem)
+            @if ($avisItem->valid)
             <div class="card">
                 <div class="card-body">
-                    @if ($unAvis->valid)
-                        <p>{{ $unAvis->user->pseudo }}</p>
-                        <p>{{ $unAvis->commentaire }}</p>
-                    @endif
+                    <p>{{ $avisItem->user->pseudo ?? 'Utilisateur inconnu' }}</p>
+                    <p>{{ $avisItem->commentaire }}</p>
                 </div>
             </div>
+            @endif
         @endforeach
     </div>
 </div>
+@endsection

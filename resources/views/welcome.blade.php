@@ -1,7 +1,7 @@
 <link href="{{ asset('assets/css/welcome.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/css/form.css') }}" rel="stylesheet">
-@extends('base')
 
+@extends('base')
 @section('content')
 
     <p>Voyagez sans culpabilité grâce à nos services de <br> covoiturage vous permettant de choisir vos <br>préférences.</p>
@@ -22,6 +22,7 @@
             <button type="submit" class="form-button">Rechercher</button>
         </form>
     </div>
+
 
 @endsection
 

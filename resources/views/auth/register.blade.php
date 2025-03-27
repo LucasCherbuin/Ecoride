@@ -1,14 +1,16 @@
-<link href="{{ mix('css/form.css') }}" rel="stylesheet">
 
+@extends('base')
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+@section('content')
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}" class="custom-form">
         @csrf
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="form-input" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-input-label for="pseudo" :value="__('Pseudo')" />
+            <x-text-input id="pseudo" class="form-input" type="text" name="pseudo" :value="old('name')" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('pseudo')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
@@ -39,3 +41,5 @@
         </div>
     </form>
 </x-guest-layout>
+
+@endsection
