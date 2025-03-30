@@ -2,15 +2,16 @@
 use App\Http\Controllers\CovoiturageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\startRideController;
 
-Route::get('/covoiturage/create', [CovoiturageController::class, 'create'])->name('covoiturage.create');
-Route::post('/covoiturage/store', [CovoiturageController::class, 'store'])->name('covoiturage.store');
+Route::get('user/covoiturage/create', [CovoiturageController::class, 'create'])->name('covoiturage.create');
+Route::post('user/covoiturage/store', [CovoiturageController::class, 'store'])->name('covoiturage.store');
 
-Route::patch('/historique', [StatusController::class, 'updateStatus']);
-Route::patch('/historique/{id}/status', [StatusController::class, 'updateStatus']);
+Route::get('user/historique', [StatusController::class, 'updateStatus']);
+Route::patch('user/historique/{id}/delete', [StatusController::class, 'deleteStatus']);
 
-Route::get('/covoiturageDemmarage', [CovoiturageController::class, 'changerStatut']);
-Route::put('/covoiturageDemmarage/{id}/changer-statut', [CovoiturageController::class, 'changerStatut']);
+Route::get('user/covoiturageDemmarage', [startRideController::class, 'changerStatut']);
+Route::put('user/covoiturageDemmarage/{id}/changer-statut', [startRideController::class, 'changerStatut']);
 
 Route::middleware('role:ROLE_CONDUCTEUR,ROLE_PASSAGER,ROLE_USER')->group(function () {
     Route::get('/customerUser/menuCustomer', function () {
