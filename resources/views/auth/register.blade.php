@@ -25,12 +25,12 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Confirm Password -->
-        <div>
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-            <x-text-input id="password_confirmation" class="form-input" type="password" name="password_confirmation" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+       <div class="image" action="{{ route ('upload.image') }}" method="POST" entctype="multipart/form-data">
+            <label for="image"><i class="ph ph-image"></i></label>
+            <input type="file" name="image" id="image" required>
+
+            <button type="submit">Envoyer</button>
+       </div>
 
         <div class="flex items-center justify-end mt-4">
             <button type="submit" class="form-button ms-4">

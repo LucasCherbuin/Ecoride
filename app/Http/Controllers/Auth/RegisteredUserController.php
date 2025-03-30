@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'psuedo' => $request->pseudo,
+            'pseudo' => $request->pseudo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -46,5 +46,20 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(route('menu-utilisateur', absolute: false));
+    }
+
+    //Fonction pour les images
+    public function image(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+
+
+            //génération de nom unique
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            //Stockage de l'image dans le dossier public
+            $path = $file->storeAs('public/uploadImage', $filename);
+        }
     }
 }
