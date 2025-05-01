@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\filtreCovoiturageRequest;
+use App\Mail\EcorideMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\Covoiturage;
+use App\Models\Modele;
+use App\Http\Requests\itineraireRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class RechercheCovoiturageController extends Controller
 {
@@ -51,4 +57,32 @@ class RechercheCovoiturageController extends Controller
         // Retourner la vue avec les résultats
         return view('covoiturage', compact('covoiturages'));
     }
+
+    public function handleChoice(Request $request)
+{
+    $redirect = $request->input('login')
+        ? route('login')
+        : route('register');
+
+    return response()->json(['redirect' => $redirect]);
+}
+
+public function reserver($numberPlace, Request $request)
+{
+
+    return response()->json([
+        'success' => true,
+        'redirect' => route('confirmation.page') // ou null
+    ]);
+}
+
+public function itineraire(itineraireRequest $request)
+    {
+        // Crée un nouveau covoiturage avec les données du formulaire
+        covoiturage::sreach([
+            'départ' => $request->depart,
+            'arrivé' => $request->arrive,
+        ]);
+    }
+
 }

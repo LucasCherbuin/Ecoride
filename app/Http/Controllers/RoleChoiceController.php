@@ -13,15 +13,15 @@ class RoleChoiceController
 {
     public function store(Request $request)
     {
-        $request->vlaidate([
-            'role' => 'required|in:ROLE_CONDUCTEUR, ROLE_PASSAGER',
+        $request->validate([
+            'role' => 'required|in:ROLE_CONDUCTEUR, ROLE_PASSAGER, ROLE_CHAUFFEURPASSAGER',
         ]);
 
         $user = Auth::user();
         $user->role = $request->role;
         $user->save();
 
-        if (str_contains($request->role, 'ROLE_CONDUCTEUR')) {
+        if (str_contains($request->role, 'ROLE_CONDUCTEUR' || 'ROLE_CHAUFFEURPASSAGER')) {
             Conducteur::updateOrCreate(
                 ['user_id' => $user->id],
                 [

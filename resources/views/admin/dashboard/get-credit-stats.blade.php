@@ -3,7 +3,7 @@
             .then(response => response.json())
             .then(data => {
                 const labels = data.map(item => item.date);
-                const values = data.map(item => item.total);
+                const values = data.map(item => item.creditGagne_donnees);
 
                 const ctx = document.getElementById('CreditChart').getContext('2d');
                 new Chart(ctx, {

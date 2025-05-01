@@ -13,15 +13,30 @@
     </div>
 
     <div class="recherche">
-        <form class="custom-form" wire:submit.prevent="save">
-            <h2>Choix de l'itinéraire</h2>
-            <input type="text" class="form-input" wire:model="title" placeholder="Départ">
+        <form method="GET" action="{{ route('covoiturage.search') }}">
+            @csrf
+            <div class="form-group">
+                <label for="depart">Départ</label>
+                <input type="text" name="depart" id="depart" class="form-input" value="{{ old('depart') }}" placeholder="Entrez votre départ">
+                @error('depart')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
 
-            <input type="text" class="form-input" wire:model="content" placeholder="Arrivée">
+            <div class="form-group">
+                <label for="arrive">Arrivée</label>
+                <input type="text" name="arrive" id="arrive" class="form-input" value="{{ old('arrive') }}" placeholder="Entrez votre arrivée">
+                @error('arrive')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
 
-            <button type="submit" class="form-button">Rechercher</button>
+            <button type="submit">Rechercher</button>
         </form>
+
     </div>
+
+
 
 
 @endsection

@@ -1,5 +1,6 @@
 @extends('base')
 @section('content')
+<label> choix du ou des rôles </label>
 <form action="{{ route('choisir.role') }}" method="POST">
     @csrf
     <label>
@@ -8,7 +9,11 @@
     <label>
         <input type="checkbox" name="role[]" value="conducteur" id="conducteur-checkbox"> Conducteur
     </label>
-
+    <script>
+    @if ('passager' && 'conducteur')
+        return $role === 'ROLE_CHAUFFEURPASSAGER'
+    </script>
+</form>
     <div id="conducteur-fields" style="display: none;">
         <label>Véhicule :</label>
         <input type="text" name="vehicule">

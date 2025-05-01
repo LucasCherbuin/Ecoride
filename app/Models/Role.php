@@ -9,12 +9,9 @@ class Role extends Model
 {
     use HasFactory;
 
+    protected $table = 'role';
+
     protected $fillable = ['id', 'label'];
 
-    // Définir la relation plusieurs à plusieurs avec les utilisateurs
-    public function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
 }
 

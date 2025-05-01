@@ -9,5 +9,5 @@ class CovoiturageDonnees extends Model
     protected $connection = 'mongodb';
     protected $collection = 'covoitruage_donnees';
 
-    protected $fillable = ['date', 'total', 'date_depart'];
+    protected $fillable = ['date', 'total'];
 }

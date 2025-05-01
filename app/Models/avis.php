@@ -22,9 +22,10 @@ class Avis extends Model
         return $this->HasMany(User::class);
     }
 
-    public function covoiturages()
+    public function covoiturage()
     {
-        return $this->HasMany(Covoiturage::class);
+        return $this->belongsTo(Covoiturage::class);
     }
+
 
 }

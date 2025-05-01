@@ -6,24 +6,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
 use App\Models\Role;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
+    protected $table = 'user';
+
     protected $fillable = [
         'id',
         'image',
         'pseudo',
         'email',
+        'role',
         'password',
         'Credit'
     ];
@@ -38,17 +40,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-
-    public function roles()
+    public function role()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsTo(Role::class); // ✅ Bon sens
     }
-
-    public function hasRole($role)
-{
-    return in_array($role, $this->roles->pluck('label')->toArray());
-}
-
 
 
     public function avis()

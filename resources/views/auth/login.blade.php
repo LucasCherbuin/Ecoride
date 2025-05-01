@@ -30,8 +30,8 @@
             @endif
 
             <button type="submit" class="form-button ms-3">
-                {{ __('Log in') }}
-            </button>¨
+                {{ ('connexion') }}
+            </button>
             <a href="{{ url('/register') }}" class="form-button ms-4">
                 {{ __('s\'enregistrer') }}
             </a>

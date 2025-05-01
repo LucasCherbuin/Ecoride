@@ -1,7 +1,7 @@
 @extends ('base')
 <link rel="stylesheet" href="{{ asset('assets/css/menu.css') }}">
 @section('content')
-<a href="{{ route('menu-admin') }}" class="back-button">
+<a href="{{ route('menuAdmin') }}" class="back-button">
     <i class="ph ph-arrow-left"></i>
 </a>
 
@@ -20,7 +20,7 @@
                 <td>{{ $user->email }}</td>
                 <td>
                     {{-- Affichage du rôle de manière lisible --}}
-                    {{ $user->role->label ?? 'Aucun rôle' }}
+                    {{ $user->role->label }}
                 </td>
                 <td>
                     <a href="{{ route('admin.userCreation.edit', ['id' => $user->id]) }}"><i class="ph ph-note-pencil"></i></a>

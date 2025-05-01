@@ -1,23 +1,20 @@
 @startuml
 
 class status {
-en prévision
-en cours
-annulé
+label varchar
 }
 
 class covoiturage {
-int id
-user_id
+id
 depart Varchar
 arrivee Varchar
+heure TIME
+Conducteur_id
+Ecologique Bool
+user_id
 Prix INT
 Date DATE
-Time TIME
-Conducteur_id
-Ecologique BOOLEAN
-Creation DATETIME
-status_id 
+status_id
 }
 
 user "many" *-- "many" covoiturage : Annonce d'un chauffeur
@@ -26,16 +23,14 @@ covoiturage "1" --* "1" status  : information sur le covoiturage
 
 class conducteur {
 int id
-modele_id
 immatriculation varchar
-energie varchar
-DateImmatriculation date
-nbPlace int
+Date_Immatriculation date
+modele_id
 preference_id
 }
 
-conducteur "1" *-- "1" modele : modèle du véhicule
-conducteur *-- preferences : préférence du conducteur
+conducteur "1" *-- "1" modele : modï¿½le du vï¿½hicule
+conducteur *-- preferences : prï¿½fï¿½rence du conducteur
 conducteur *-- covoiturage : information sur le conducteur
 
 class modele {
@@ -43,18 +38,19 @@ int id
 modele varchar
 marque varchar
 couleur varchar
-energieVerte bool
+energie varchar
+Nombre_places int
 user_id
 }
 
 
 class avis {
 id
-user_id
-covoiturage_id
 note int
 commentaire TEXT
 valid boolean
+user_id
+covoiturage_id
 }
 
 user "1" --*  "1" avis : avis laisser par les passagers
@@ -66,10 +62,11 @@ int id
 label varchar
 }
 
-role "many" --* "1" user : role attribué a l'utilisateur
+role "many" --* "1" user : role attribuï¿½ a l'utilisateur
 
 class user {
 int id
+image text
 role_id
 email Varchar
 password Varchar
@@ -80,6 +77,7 @@ Credit int
 user "1" --* "many" modele
 
 class preferences {
+int id
 Fumeur BOOL
 animal BOOL
 detail varchar
@@ -92,14 +90,14 @@ user "1" --* "many" preferences
 
 class CovoiturageJour {
 date DATE
-Covoiturage INT 
+Covoiturage INT
 nosql
 }
 
 class Benefice  {
 date DATE
-Credit_gagné INT
-nosql 
+Credit_gagnÃ© INT
+nosql
 }
 
 

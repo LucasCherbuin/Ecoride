@@ -42,9 +42,10 @@ class RegisteredUserController extends Controller
 
         // Création de l'utilisateur
         $user = User::create([
-            'psuedo' => $request->pseudo,
+            'pseudo' => $request->pseudo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'credit' => ['20'],
         ]);
 
         // Assigner le rôle "ROLE_EMPLOYEE" à l'utilisateur
@@ -61,7 +62,7 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // Redirection après l'enregistrement
-        return redirect(route('user.menu-customer', absolute: false));
+        return redirect(route('user.menuCustomer', absolute: false));
     }
 
     //Fonction pour les images

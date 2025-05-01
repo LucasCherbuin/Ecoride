@@ -50,3 +50,19 @@
     color: white;
     font-size: 24px;
 }
+
+@media (min-width: 768px) {
+    .container {
+      font-size: 18px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+  }
+
+  /* Desktop (min-width: 1024px) */
+  @media (min-width: 1024px) {
+    .container {
+      font-size: 20px;
+      max-width: 960px;
+    }
+  }

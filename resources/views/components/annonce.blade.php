@@ -1,34 +1,19 @@
-@extends('base')
-
-@section('content')
 <div class="annonce">
-    <div class="profile">
-        <!-- Affichage des avis -->
-        @foreach ($avis as $avisItem)
-            <img src="{{ $avisitem->image ?? asset('assets/pictures/default.png') }}" alt="Profil">
-            <p>{{ $avisItem->note }} ⭐ - {{ $avisItem->pseudo }}</p>
-        @endforeach
-    </div>
-
     <button type="button">Réserver <i class="ph ph-calendar-plus"></i></button>
 
     <!-- Affichage des informations de covoiturage -->
-    @foreach ($covoiturages as $covoiturage)
     <div class="principal">
-        <p>{{ $covoiturage->date }} à {{ $covoiturage->heure }}</p>
-        <p>Trajet : {{ $covoiturage->depart }} → {{ $covoiturage->arrive }}</p>
+        <p>{{ $date ?? 'Date non disponible' }} à {{ $heure ?? 'Heure non disponible' }}</p>
+        <p>Trajet : {{ $depart ?? 'Départ inconnu' }} → {{ $arrive ?? 'Arrivée inconnue' }}</p>
     </div>
 
     <!-- Affichage des détails du modèle -->
-        @foreach ($modeles as $modele)
-        <div class="detail">
-            <p>{{ $modele->prix }} € - {{ $modele->nombrePlaces }} places - Énergie : {{ $modele->energie }}</p>
-        </div>
-        <div class="accordion-detail">
-            <!-- Plus de détails ici -->
-        </div>
-        @endforeach
-    @endforeach
+    <div class="detail">
+        <p>{{ $prix ?? 'Prix inconnu' }} € - {{ $nombrePlaces ?? '0' }} places - Énergie : {{ $energie ?? 'Non spécifiée' }}</p>
+    </div>
+    <div class="accordion-detail">
+        <!-- Plus de détails ici -->
+    </div>
 
     <!-- Section des avis -->
     <div class="avis">
@@ -43,16 +28,19 @@
         </div>
 
         <!-- Affichage des avis validés -->
-        @foreach ($avis as $avisItem)
-            @if ($avisItem->valid)
-            <div class="card">
-                <div class="card-body">
-                    <p>{{ $avisItem->user->pseudo ?? 'Utilisateur inconnu' }}</p>
-                    <p>{{ $avisItem->commentaire }}</p>
-                </div>
-            </div>
-            @endif
-        @endforeach
+        @if (!empty($avis))
+            @foreach ($avis as $avisItem)
+                @if ($avisItem['valid'])
+                    <div class="card">
+                        <div class="card-body">
+                            <p>{{ $pseudo ?? 'Utilisateur inconnu' }}</p>
+                            <p>{{ $avisItem['commentaire'] }}</p>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+        @else
+            <p>Aucun avis disponible.</p>
+        @endif
     </div>
 </div>
-@endsection

@@ -4,37 +4,43 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
-// Routes accessibles aux invités seulement
-Route::middleware('guest')->group(function () {
+
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    Route::post('/upload', [RegisteredUserController::class, 'store'])->name('upload.image')->middleware('image.upload');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
-});
+
+
+
+Route::post('/submit', function () {
+    return 'Formulaire soumis avec succès !';
+})->middleware('custom.csrf');
+
 
 // Routes protégées (authentification requise)
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
     // Redirections selon le rôle
-    Route::middleware('Role:ROLE_ADMIN')->group(function () {
+    Route::middleware(['auth', 'role:ROLE_ADMIN'])->group(function () {
         Route::get('/admin/menuAdmin', function () {
-            return view('Menu-admin');
-        })->name('admin.menu-admin');
+            return view('MenuAdmin');
+        })->name('admin.menuAdmin');
     });
 
-    Route::middleware('Role:ROLE_EMPLOYE')->group(function () {
+    Route::middleware(['auth', 'role:ROLE_EMPLOYE'])->group(function () {
         Route::get('/employee/menuEmployee', function () {
-            return view('Menu-employee');
-        })->name('employee.menu-employee');
+            return view('MenuEmployee');
+        })->name('employee.menuEmployee');
     });
 
-    Route::middleware('Role:ROLE_CONDUCTEUR,Role:ROLE_PASSAGER,Role:ROLE_USER')->group(function () {
+    Route::middleware(['auth', 'role:ROLE_CONDUCTEUR|ROLE_PASSAGER|ROLE_USER|ROLE_CHAUFFEURPASSAGER'])->group(function () {
         Route::get('/customerUser/menuCustomer', function () {
-            return view('menu-customer');
-        })->name('customerUser.menu-customer');
+            return view('customerUser.menuCustomer');
+        })->name('customerUser.menuCustomer');
+
     });
+
 });

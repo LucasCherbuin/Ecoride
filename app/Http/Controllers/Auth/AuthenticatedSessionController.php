@@ -48,13 +48,13 @@ class AuthenticatedSessionController extends Controller
     // Redirection selon le rôle de l'utilisateur
     switch ($user->label) {
         case 'ROLE_ADMIN':
-            return redirect()->route('admin.menu-admin');
+            return redirect()->route('admin.menuAdmin');
         case 'ROLE_USER':
         case 'ROLE_CONDUCTEUR':
         case 'ROLE_PASSAGER':
-            return redirect()->route('user.menu-utilisateur');
+            return redirect()->route('user.menuUtilisateur');
         case 'ROLE_EMPLOYEE':
-            return redirect()->route('employee.menu-employee');
+            return redirect()->route('employee.menuEmployee');
         default:
             return redirect('/')->with('error', 'Rôle non reconnu');
     }

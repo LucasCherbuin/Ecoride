@@ -10,8 +10,7 @@ class WelcomeController extends Controller
 {
     public function itineraire(itineraireRequest $request)
     {
-        // Crée un nouveau covoiturage avec les données du formulaire
-        covoiturage::create([
+        covoiturage::sreach([
             'départ' => $request->depart,
             'arrivé' => $request->arrive,
         ]);

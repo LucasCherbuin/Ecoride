@@ -4,13 +4,78 @@ namespace App\Http\Controllers;
 
 use App\Models\Covoiturage;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\CovoiturageDonnees;
-use Carbon\Carbon;
+use App\Models\CreditGagneDonnees;
+use Illuminate\Support\Facades\Auth;
 
-class DashboardAdminController
+class DashboardAdminController extends Controller
 {
+
+     // Incrémenter le nombre de covoiturages par jour (NoSQL)
+
+    public function covoiturage(Request $request)
+    {
+        $date = now()->toDateString();
+
+        $stat = CovoiturageDonnees::firstOrCreate(
+            ['date' => $date],
+            ['nb_covoiturages' => 0]
+        );
+
+        $stat->increment('nb_covoiturages');
+    }
+
+
+     // taxe Création d’une annonce → -2 crédits
+
+    public function covoiturageCreation(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->credit >= 2) {
+            $user->decrement('credit', 2);
+
+            Covoiturage::create([
+                'status_id' => 'en prévision', // statut par défaut
+            ]);
+        }
+    }
+
+
+     //Annulation → remboursement
+
+    public function covoiturageAnnulation(Covoiturage $covoiturage, Request $request)
+    {
+        $user = $request->user();
+
+        if ($covoiturage->status->label !== 'annule') {
+            $user->increment('credit', 2);
+
+            $covoiturage->update([
+                'status_id' => 'annule', // statut "annulé"
+            ]);
+
+        }
+    }
+
+    /**
+     * ➕ Mise à jour des crédits gagnés quotidiennement (NoSQL)
+     */
+    public function credit(Request $request)
+    {
+        $date = now()->toDateString();
+
+        $gain = CreditGagneDonnees::firstOrCreate(
+            ['date' => $date],
+            ['creditGagne_donnees' => 0]
+        );
+
+        $gain->increment('creditGagne_donnees');
+    }
+
+
+     // Dashboard Vue
 
     public function dashboard()
     {
@@ -19,72 +84,7 @@ class DashboardAdminController
 
         return response()->json([
             'covoiturage' => $view1,
-            'credit' => $view2
+            'credit' => $view2,
         ]);
     }
-
-
-    //stockage donnée en NoSql
-    public function covoiturage(Request $request)
-{
-    $request->validate([
-        'covoiturage_id' => 'required|integer',
-    ]);
-
-    $covoiturage = Covoiturage::create([
-        'covoiturage' => $request->covoiturage_id,
-        'en_cours' => $request->covoiturage_id,
-        'date_depart' => Carbon::now(),
-    ]);
-
-    // Compteur de covoiturage par jour
-    $today = Carbon::today()->toDateString();
-
-    CovoiturageDonnees::updateOrCreate(
-        ['date' => $today],
-        ['$inc' => ['total' => 1]]
-    );
-}
-
-
-
-    public function getCovoiturageStats()
-    {
-        $stats = CovoiturageDonnees::orderBy('date', 'asc')->get();
-
-        return response()->json($stats);
-    }
-
-
-public function credit(Request $request)
-{
-    $user = Auth::user(); // Récupérer l'utilisateur connecté
-
-    if (!$user) {
-        return response()->json(['error' => 'Utilisateur non authentifié'], 401);
-    }
-
-    $request->validate([
-        'covoiturage_id' => 'required|integer',
-        'prix' => 'required|numeric',
-    ]);
-
-    // Enregistrement du crédit dans le covoiturage
-    $covoiturage = Covoiturage::create([
-        'Credit' => $user->credit,
-        'prix' => $request->prix,
-        'termine' => $request->covoiturage_id,
-        'annule' => $request->covoiturage_id,
-        'date_depart' => Carbon::now(),
-    ]);
-
-    // Mise à jour des statistiques NoSQL
-    $today = Carbon::today()->toDateString();
-
-    CovoiturageDonnees::updateOrCreate(
-        ['date' => $today],
-        ['$inc' => ['total' => 1]]
-    );
-}
-
 }

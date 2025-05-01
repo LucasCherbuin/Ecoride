@@ -27,7 +27,9 @@ class CovoiturageRequest extends FormRequest
             'depart' => 'required|string',
             'arrive' => 'required|string',
             'heure' => 'required|time',
-            'EnergieVerte' => 'nullable|boolean',
+            'Ecologique' => 'nullable|boolean',
+            'prix' => 'required|int|min:1',
+            'date' => 'required|date',
             //choix du véhicule
             'modeles' => 'required|collection',
             //ajout d'un véhicule
@@ -45,7 +47,21 @@ class CovoiturageRequest extends FormRequest
             'depart.required' => 'Indiquez un départ',
             'arrive.required' => 'Indiquez une arrive',
             'heure.required' => 'indiquez une heure',
+            'prix.required' => 'Indiquez un prix',
+            'date.required' => 'indiquez une date pour la course',
             'modeles' => 'veuillez ajouter un véhicule pour le voyage'
         ];
+    }
+
+    public function save(CovoiturageRequest $request)
+    {
+        // Les données sont validées automatiquement grâce à CovoiturageRequest
+        $validatedData = $request->validated();
+
+        $depart = $validatedData['depart'];
+        $arrive = $validatedData['arrive'];
+
+        // Vous pouvez maintenant traiter les données (par exemple, rechercher des trajets)
+        return view('covoiturage.results', compact('depart', 'arrive'));
     }
 }

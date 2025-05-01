@@ -10,7 +10,7 @@ class RolesSeeder extends Seeder
     public function run()
     {
         // Insère des rôles dans la table 'roles'
-        DB::table('roles')->insert([
+        DB::table('role')->insert([
             ['label' => 'ROLE_ADMIN'],
             ['label' => 'ROLE_EMPLOYE'],
             ['label' => 'ROLE_USER'],

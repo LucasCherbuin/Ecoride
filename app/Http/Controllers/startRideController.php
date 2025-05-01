@@ -1,29 +1,66 @@
 <?php
 
+// Déclare l’espace de nom (namespace) du contrôleur
 namespace App\Http\Controllers;
 
-use App\Models\Status;
-use App\Models\Covoiturage;
-use Illuminate\Http\Request;
+// Importation des modèles nécessaires
+use App\Models\Status;         // Modèle pour les statuts de covoiturage (prévision, en cours, terminé...)
+use App\Models\Covoiturage;    // Modèle principal du trajet
+use App\Models\User;           // Modèle utilisateur
+use Illuminate\Support\Facades\Mail; // Facade Laravel pour envoyer des e-mails
+use Illuminate\Http\Request;   // Pour gérer les requêtes HTTP
+use App\Mail\EcorideMail;      // Classe de mail personnalisée que tu as créée
 
-class startRideController
+// Définition du contrôleur qui hérite de la classe de base Controller
+class StartRideController extends Controller
 {
+    // Méthode pour faire évoluer le statut du covoiturage
     public function begin($id)
     {
-        $covoiturage = Covoiturage::find($id);
+        // On récupère le covoiturage par son ID avec sa relation "status"
+        $covoiturage = Covoiturage::with('status')->findOrFail($id);
 
-       if (!$covoiturage->status->label == 'en prévision') {
-            $nouveauStatus = Status::where('label', 'en cours')->first();
-       } elseif ($covoiturage->status->label == 'en cours') {
-            $nouveauStatus = Status::where('label', 'terminé')->first();
-       } else {
-            return response()->json(['message' => 'Action non autorisée'], 400);
-       }
+        try {
+            // Si le statut est "en prévision", on passe à "en cours"
+            if ($covoiturage->status->label === 'en prévision') {
+                $nouveauStatus = Status::where('label', 'en cours')->first();
+            }
+            // Si le statut est "en cours", on passe à "terminé"
+            elseif ($covoiturage->status->label === 'en cours') {
+                $nouveauStatus = Status::where('label', 'termine')->first();
 
-       if ($nouveauStatus) {
-            $covoiturage->status_id = $nouveauStatus->id;
-            $covoiturage->save();
-       }
+                // Envoi d’e-mails aux passagers pour demander un avis
+                $this->sendAvisMail($covoiturage);
+            }
+            // Si le statut est autre que prévu, on retourne une erreur
+            else {
+                return response()->json(['message' => 'Statut non modifiable.'], 400);
+            }
 
+            // Si on a bien trouvé un nouveau statut, on l’enregistre
+            if ($nouveauStatus) {
+                $covoiturage->status_id = $nouveauStatus->id; // mise à jour du champ status
+                $covoiturage->save(); // sauvegarde dans la base
+            }
+
+            // Réponse JSON de succès
+            return response()->json(['message' => 'Statut mis à jour.']);
+        }
+        // En cas d’erreur, on capture l’exception et on renvoie une réponse avec le message d’erreur
+        catch (\Exception $e) {
+            return response()->json(['message' => 'Une erreur est survenue.', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    // Fonction qui envoie un e-mail à chaque passager lorsque le trajet est terminé
+    protected function sendAvisMail(Covoiturage $covoiturage)
+    {
+        // On suppose que le modèle Covoiturage a une relation "passagers"
+        $passagers = $covoiturage->passagers;
+
+        // Pour chaque passager, on envoie un mail personnalisé
+        foreach ($passagers as $passager) {
+            Mail::to($passager->email)->send(new EcorideMail($covoiturage));
+        }
     }
 }

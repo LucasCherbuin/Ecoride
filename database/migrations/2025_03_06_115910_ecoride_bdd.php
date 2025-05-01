@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         // Création des tables indépendantes en premier
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('role', function (Blueprint $table) {
             $table->id();
             $table->string('label')->unique();
             $table->timestamps();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('modeles', function (Blueprint $table) {
+        Schema::create('modele', function (Blueprint $table) {
             $table->id();
             $table->string('modele');
             $table->string('marque');
@@ -34,48 +34,49 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('user', function (Blueprint $table) {
             $table->id();
             $table->string('pseudo')->unique();
             $table->string('image')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->integer('credit')->default(0);
-            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
+            $table->foreignId('role_id')->constrained('role')->onDelete('cascade');
             $table->timestamps();
         });
 
-        Schema::create('preferences', function (Blueprint $table) {
+        Schema::create('preference', function (Blueprint $table) {
             $table->id();
             $table->boolean('fumeur')->default(false);
             $table->boolean('animal')->default(false);
             $table->text('detail')->nullable();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('user')->onDelete('cascade');
             $table->timestamps();
         });
 
-        Schema::create('conducteurs', function (Blueprint $table) {
+        Schema::create('conducteur', function (Blueprint $table) {
             $table->id();
             $table->string('immatriculation', 10)->unique();
-            $table->string('energie', 20);
             $table->date('date_immatriculation');
-            $table->foreignId('modele_id')->constrained('modeles')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('modele_id')->constrained('modele')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('user')->onDelete('cascade');
             $table->timestamps();
         });
 
-        Schema::create('covoiturages', function (Blueprint $table) {
+
+
+        Schema::create('covoiturage', function (Blueprint $table) {
             $table->id();
             $table->string('depart');
             $table->string('arrivee');
             $table->date('date');
             $table->time('heure_depart');
             $table->time('heure_arrive');
-            $table->int('prix');
+            $table->integer('prix');
             $table->boolean('ecologique')->default(false);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('conducteur_id')->constrained('conducteurs')->onDelete('cascade');
-            $table->foreignId('status_id')->constrained('statuses')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('user')->onDelete('cascade');
+            $table->foreignId('conducteur_id')->constrained('conducteur')->onDelete('cascade');
+            $table->foreignId('status_id')->constrained('status')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -84,8 +85,8 @@ return new class extends Migration
             $table->integer('note')->default(18);
             $table->text('commentaire');
             $table->boolean('valid')->default(false);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('covoiturage_id')->constrained('covoiturages')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('user')->onDelete('cascade');
+            $table->foreignId('covoiturage_id')->constrained('covoiturage')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -95,13 +96,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('avis');
-        Schema::dropIfExists('covoiturages');
-        Schema::dropIfExists('conducteurs');
-        Schema::dropIfExists('preferences');
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('modeles');
-        Schema::dropIfExists('statuses');
-        Schema::dropIfExists('roles');
+
     }
 };
+

@@ -36,11 +36,11 @@
                             <i class="ph ph-user-circle"></i>
                         </a>
                     @elseif ($role === 'ROLE_EMPLOYEE')
-                        <a class="nav-item" href="{{ url('/employee/menu-employee') }}">
+                        <a class="nav-item" href="{{ url('/employee/menuEmployee') }}">
                             <i class="ph ph-user-circle"></i>
                         </a>
                     @elseif (in_array($role, ['ROLE_USER', 'ROLE_CONDUCTEUR', 'ROLE_PASSAGER']))
-                        <a class="nav-item" href="{{ url('/user/menu-customer') }}">
+                        <a class="nav-item" href="{{ url('/user/menuCustomer') }}">
                             <i class="ph ph-user-circle"></i>
                         </a>
                     @else
@@ -66,7 +66,6 @@
         <p class="footer-text"><a href="{{ url('/mentions-legales') }}">Mentions légales</a></p>
     </footer>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+
 </body>
 </html>

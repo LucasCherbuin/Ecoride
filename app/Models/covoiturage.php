@@ -11,10 +11,12 @@ class Covoiturage extends Model
 
     protected $fillable = [
         'id',
+        'date',
         'depart',
         'arrive',
         'prix',
-        'time',
+        'heure_depart',
+        'heure_arrive',
         'energie_verte',
         'creation',];
 

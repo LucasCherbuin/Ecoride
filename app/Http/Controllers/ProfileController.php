@@ -46,8 +46,8 @@ class ProfileController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Associer un rôle à l'utilisateur
-        $role = Role::findOrFail(5);  // Récupère le rôle avec l'ID 5, ou échoue si ce rôle n'existe pas
+        // Associer le rôle "employé" à l'utilisateur
+        $role = Role::findOrFail('ROLE_EMPLOYE');  // Récupère le rôle avec l'ID 5, ou échoue si ce rôle n'existe pas
 
         // Associer ce rôle à l'utilisateur
         $user->roles()->attach($role);  // On associe le rôle à l'utilisateur

@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CovoiturageRequest;
 use App\Models\Covoiturage;
 use App\Models\Modele;
+use App\Models\Avis;
 use Illuminate\Http\Request;
 
 class CovoiturageController extends Controller
 {
     public function index()
     {
-        // Récupération de tous les covoiturages avec leurs modèles associés (si relation définie)
+        // Récupération de tous les covoiturages avec leurs modèles associés
         $covoiturages = Covoiturage::with('modeles')->get();
         return view('covoiturage.index', compact('covoiturages'));
     }
@@ -19,7 +20,7 @@ class CovoiturageController extends Controller
     public function store(CovoiturageRequest $request)
     {
         // Création du covoiturage
-        $covoiturage = Covoiturage::create([
+        $preparedcovoiturage = Covoiturage::create([
             'depart' => $request->depart,
             'arrive' => $request->arrive,
             'heure' => $request->heure,
@@ -28,7 +29,7 @@ class CovoiturageController extends Controller
 
         // Vérifier si un véhicule doit être ajouté
         if ($request->filled(['modele', 'marque', 'couleur', 'nombre_places', 'energie'])) {
-            $modele = Modele::create([
+            $preparedmodele = Modele::create([
                 'modele' => $request->modele,
                 'marque' => $request->marque,
                 'couleur' => $request->couleur,
@@ -37,8 +38,8 @@ class CovoiturageController extends Controller
             ]);
 
             // Associer le véhicule au covoiturage si une relation existe
-            if (method_exists($covoiturage, 'modeles')) {
-                $covoiturage->modeles()->attach($modele->id);
+            if (method_exists($preparedcovoiturage, 'modeles')) {
+                $preparedcovoiturage->modeles()->attach($preparedmodele->id);
             }
         }
 
@@ -53,8 +54,13 @@ class CovoiturageController extends Controller
             return response()->json(['message' => 'Covoiturage non trouvé'], 404);
         }
 
-        return view('components.annonce', compact('covoiturage'));
+        $avis = Avis::where('covoiturages', $id)->get();
+        $modeles = $covoiturage->modeles ?? collect();
+
+        return view('components.annonce', compact('covoiturage', 'avis', 'modeles'));
     }
+
+
 
     public function update(Request $request, $id)
     {
@@ -68,7 +74,7 @@ class CovoiturageController extends Controller
             'depart' => 'sometimes|string',
             'arrive' => 'sometimes|string',
             'heure' => 'sometimes',
-            'EnergieVerte' => 'sometimes|boolean',
+            'Ecologique' => 'sometimes|boolean',
         ]);
 
         $covoiturage->update($validatedData);
@@ -89,4 +95,3 @@ class CovoiturageController extends Controller
         return response()->json(['message' => 'Covoiturage supprimé avec succès']);
     }
 }
-

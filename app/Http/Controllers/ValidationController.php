@@ -12,7 +12,7 @@ class ValidationController
     public function index()
     {
         $avis = Avis::where('status', 'pending')->get();
-        return view('reviews.index', compact('reviews'));
+        return view('status.index', compact('status'));
     }
 
     /**
@@ -21,7 +21,7 @@ class ValidationController
     public function validateAvis($id)
     {
         $avis = Avis::findOrFail($id);
-        $avis->status = 'approved';
+        $avis->valid = 0;
         $avis->save();
 
         return redirect()->back()->with('success', 'Avis validé avec succès.');
@@ -33,7 +33,7 @@ class ValidationController
     public function rejectAvis($id)
     {
         $review = Avis::findOrFail($id);
-        $review->status = 'rejected';
+        $review->valid = 1;
         $review->save();
 
         return redirect()->back()->with('error', 'Avis rejeté.');

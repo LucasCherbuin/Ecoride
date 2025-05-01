@@ -9,24 +9,25 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    public function handle(Request $request, Closure $next, ...$roles): Response
+    public function handle($request, Closure $next, ...$role)
     {
-        // Vérifier si l'utilisateur est authentifié
-        if (!Auth::check()) {
-            abort(403, 'Accès interdit');
+        // Récupère l'utilisateur actuellement authentifié
+        $user = Auth::user();
+
+        // Si l'utilisateur est connecté et qu'il a des rôles à vérifier
+        if ($user) {
+            // Récupère les labels des rôles de l'utilisateur (on suppose une relation 'role')
+            $userRole = $user->role->pluck('label')->toArray();
+
+            // Vérifie si l'utilisateur a un des rôles demandés
+            if (!array_intersect($role, $userRole)) {
+                // Si non, on renvoie une erreur 403
+                abort(403, 'Accès interdit');
+            }
         }
 
-        // Vérifier si l'utilisateur a un des rôles spécifiés
-        $user = Auth::user()->roles->pluck('label')->toArray(); // Assuming your roles are stored as an array
-        if (!array_intersect($user, $roles)) {
-            abort(403, 'Vous n\'avez pas l\'autorisation pour accéder à cette page');
-        }
-
-        // Si l'utilisateur a un rôle approprié, on passe à la suite
+        // Continue la requête si l'utilisateur a le rôle adéquat
         return $next($request);
     }
 }
-
-
-
 

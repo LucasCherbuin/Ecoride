@@ -23,8 +23,7 @@ class StatusController
 
         return response()->json([
             'message' => 'Status mis à jour avec succès',
-            'covoiturage' => $covoiurage,
+            'covoiturage' => $covoiturage,
         ]);
-
     }
 }

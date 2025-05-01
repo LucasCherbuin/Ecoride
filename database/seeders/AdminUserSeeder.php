@@ -12,13 +12,13 @@ class AdminUserSeeder extends Seeder
 
     public function run()
     {
-        $adminRole = Role::where('label', 'ROLE_ADMIN')->first();
+        $adminRole = Role::where('label', 'ROLE_CONDUCTEUR')->first();
 
         User::updateOrCreate([
-            'email' => 'admin@ecoride.com',
+            'email' => 'conducteur@ecoride.com',
         ], [
-            'pseudo' => 'Admin',
-            'password' => Hash::make('1234'),
+            'pseudo' => 'rené',
+            'password' => Hash::make('conducteur'),
             'role_id' => $adminRole->id,
         ]);
     }

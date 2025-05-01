@@ -42,9 +42,19 @@
                 <input type="time" name="heure" id="heure" class="form-control" value="{{ old('heure') }}" required>
             </div>
 
+            <div class="mb-3">
+                <label for="heure" class="form-label">date :</label>
+                <input type="date" name="date" id="date" class="form-control" value="{{ old('date') }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="prix" class="form-label">Prix :</label>
+                <input type="int" name="prix" id="prix" class="form-control" value="{{ old('heure') }}" required>
+            </div>
+
             <div class="form-check mb-3">
-                <input type="checkbox" name="EnergieVerte" id="EnergieVerte" class="form-check-input" {{ old('EnergieVerte') ? 'checked' : '' }}>
-                <label class="form-check-label" for="EnergieVerte">Utilisation d’énergie verte</label>
+                <input type="checkbox" name="Ecologique" id="Ecologique" class="form-check-input" {{ old('Ecologique') ? 'checked' : '' }}>
+                <label class="form-check-label" for="Ecologique">Ecologique ?</label>
             </div>
 
             {{-- Choix du véhicule --}}
@@ -54,7 +64,7 @@
                     <option value="">Sélectionnez un modèle</option>
                     @foreach ($modeles as $modele)
                         <option value="{{ $modele->id }}" {{ in_array($modele->id, old('modeles', [])) ? 'selected' : '' }}>
-                            {{ $modele->nom }}
+                            {{ $modele->modele }}
                         </option>
                     @endforeach
                 </select>

@@ -5,7 +5,7 @@ use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisteredEmployeController;
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:ROLE_ADMIN'])->group(function () {
 
     Route::get('admin/userCreation/', [ProfileController::class, 'index'])->name('admin.userCreation.index');
     Route::get('admin/userCreation/create', [RegisteredEmployeController::class, 'createEmploye'])->name('admin.userCreation.create');
@@ -18,9 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard/get-covoiturage-stats', [DashboardAdminController::class, 'getCovoiturageStats']);
     Route::get('/admin/dashboard/get-credit-stats', [DashboardAdminController::class, 'getCreditStats']);
 
-    Route::get('admin/menuAdmin', function () {
-        return view('admin.menu-admin'); // Remplace par le bon nom de la vue
-    })->name('menu-admin');
+
 });
 
 
