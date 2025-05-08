@@ -7,7 +7,6 @@
 @section('content')
 <div id="root">
     @php
-        $buttonConfig = [];
 
         if (Auth::user()->hasRole('ROLE_USER')) {
             $buttonConfig[] = [

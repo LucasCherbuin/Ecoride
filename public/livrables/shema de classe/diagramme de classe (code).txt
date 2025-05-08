@@ -1,105 +1,88 @@
 @startuml
 
-class status {
-label varchar
+class Status {
+  +label : varchar
 }
 
-class covoiturage {
-id
-depart Varchar
-arrivee Varchar
-heure TIME
-Conducteur_id
-Ecologique Bool
-user_id
-Prix INT
-Date DATE
-status_id
+class Covoiturage {
+  +id : int
+  +depart : varchar
+  +arrivee : varchar
+  +heure : time
+  +ecologique : bool
+  +prix : int
+  +date : date
 }
 
-user "many" *-- "many" covoiturage : Annonce d'un chauffeur
-covoiturage "1" --* "1" status  : information sur le covoiturage
-
-
-class conducteur {
-int id
-immatriculation varchar
-Date_Immatriculation date
-modele_id
-preference_id
+class User {
+  +id : int
+  +email : varchar
+  +password : varchar
+  +pseudo : varchar
+  +credit : int
+  +image : text
 }
 
-conducteur "1" *-- "1" modele : mod�le du v�hicule
-conducteur *-- preferences : pr�f�rence du conducteur
-conducteur *-- covoiturage : information sur le conducteur
-
-class modele {
-int id
-modele varchar
-marque varchar
-couleur varchar
-energie varchar
-Nombre_places int
-user_id
+class Conducteur {
+  +id : int
+  +immatriculation : varchar
+  +date_immatriculation : date
 }
 
-
-class avis {
-id
-note int
-commentaire TEXT
-valid boolean
-user_id
-covoiturage_id
+class Modele {
+  +id : int
+  +modele : varchar
+  +marque : varchar
+  +couleur : varchar
+  +energie : varchar
+  +nombre_places : int
 }
 
-user "1" --*  "1" avis : avis laisser par les passagers
-avis "many" --* "1" covoiturage : avis sur le trajet
-
-
-class role {
-int id
-label varchar
+class Preferences {
+  +id : int
+  +fumeur : bool
+  +animal : bool
+  +detail : varchar
 }
 
-role "many" --* "1" user : role attribu� a l'utilisateur
-
-class user {
-int id
-image text
-role_id
-email Varchar
-password Varchar
-pseudo Varchar
-Credit int
+class Avis {
+  +id : int
+  +note : int
+  +commentaire : text
+  +valid : boolean
 }
 
-user "1" --* "many" modele
-
-class preferences {
-int id
-Fumeur BOOL
-animal BOOL
-detail varchar
-user_id
+class Role {
+  +id : int
+  +label : varchar
 }
-
-user "1" --* "many" preferences
-
-
 
 class CovoiturageJour {
-date DATE
-Covoiturage INT
-nosql
+  +date : date
+  +covoiturage : int
+  +nosql
 }
 
-class Benefice  {
-date DATE
-Credit_gagné INT
-nosql
+class Benefice {
+  +date : date
+  +credit_gagne : int
+  +nosql
 }
 
+' ======= RELATIONS =======
 
+User "1" -- "0..*" Covoiturage : publie
+Covoiturage "1" --> "1" Status : a pour statut
 
+User "1" -- "0..*" Avis : écrit
+Avis "*" --> "1" Covoiturage : concerne
 
+Conducteur "1" -- "1" Modele : possède
+Conducteur "1" -- "0..1" Preferences : a
+Conducteur "1" -- "0..*" Covoiturage : conduit
+
+User "1" -- "0..*" Modele : peut enregistrer
+User "1" -- "0..*" Preferences : peut enregistrer
+User "1" --> "1" Role : a pour rôle
+
+@enduml

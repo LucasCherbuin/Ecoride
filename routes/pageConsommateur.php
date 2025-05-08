@@ -5,18 +5,17 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\RoleChoiceController;
 use App\Http\Controllers\AvisController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-
+use App\Http\Controllers\StartRideController;
 
 Route::middleware(['auth', 'role:ROLE_USER'])->group(function () {
     Route::post('/choisir-role', [RoleChoiceController::class, 'choisirRole'])->name('choisir.role');
-    Route::post('/upload', [RegisteredUserController::class, 'store'])->name('upload.image')->middleware('image.upload');
 });
 
 Route::middleware(['auth', 'role:ROLE_CONDUCTEUR|ROLE_CHAUFFEURPASSAGER'])->group(function () {
     Route::get('/covoiturage/create', [CovoiturageController::class, 'create'])->name('covoiturage.create');
     Route::post('/covoiturage/store', [CovoiturageController::class, 'store'])->name('covoiturage.store');
-    Route::get('/covoiturageDemmarage', [CovoiturageController::class, 'changerStatut']);
-    Route::put('/covoiturageDemmarage/{id}/changer-statut', [CovoiturageController::class, 'changerStatut']);
+    Route::get('/covoiturageDemmarage', [StartRideController::class, 'begin']);
+    Route::put('/covoiturageDemmarage/{id}/changer-statut', [StartRideController::class, 'begin']);
 });
 
 Route::middleware(['auth', 'role:ROLE_CONDUCTEUR|ROLE_CHAUFFEURPASSAGER|ROLE_PASSAGER'])->group(function () {

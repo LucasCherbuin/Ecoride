@@ -1,8 +1,10 @@
+<canvas id="CovoiturageChart" width="400" height="200"></canvas>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Envoie une requête GET pour récupérer les données JSON
-        fetch("/api/covoiturages-par-jour") // ⚠️ Remplace par ton vrai endpoint
-            .then(response => response.json()) // Convertit la réponse en JSON
+        // Envoie une requête GET pour récupérer les données JSON depuis ton backend
+        fetch('/statistiques/covoiturages')
+            .then(response => response.json())
             .then(data => {
                 // Extrait les labels (ex: dates) et les valeurs (ex: nombre de trajets)
                 const labels = data.map(item => item.date);
@@ -17,9 +19,9 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'Nombre de covoiturages',
+                            label: 'Nb de covoiturages',
                             data: values,
-                            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                            backgroundColor: 'rgba(255, 255, 255, 1)',
                             borderColor: 'rgba(163, 230, 53, 1)',
                             borderWidth: 1
                         }]
@@ -41,7 +43,4 @@
                 console.error("Erreur lors de la récupération des données :", error);
             });
     });
-</script>
-
-<!-- Script Bootstrap (facultatif pour le graphique) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </script>

@@ -20,38 +20,43 @@
         <nav class="navbar">
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
+
                     <a class="nav-item" href="{{ url('/') }}">
                         <i class="ph ph-house-line"></i>
                     </a>
+
                     <a class="nav-item" href="{{ url('/covoiturage') }}">
                         <i class="ph ph-car-profile"></i>
                     </a>
 
-                    @php
-                        $role = auth()->user()->role ?? '';
-                    @endphp
+                    @auth
+                        @php $role = auth()->user()->role; @endphp
 
-                    @if ($role === 'ROLE_ADMIN')
-                        <a class="nav-item" href="{{ url('/admin/menuAdmin') }}">
-                            <i class="ph ph-user-circle"></i>
-                        </a>
-                    @elseif ($role === 'ROLE_EMPLOYEE')
-                        <a class="nav-item" href="{{ url('/employee/menuEmployee') }}">
-                            <i class="ph ph-user-circle"></i>
-                        </a>
-                    @elseif (in_array($role, ['ROLE_USER', 'ROLE_CONDUCTEUR', 'ROLE_PASSAGER']))
-                        <a class="nav-item" href="{{ url('/user/menuCustomer') }}">
-                            <i class="ph ph-user-circle"></i>
-                        </a>
-                    @else
+                        @if ($role === 'ROLE_ADMIN')
+                            <a class="nav-item" href="{{ url('/admin/menuAdmin') }}">
+                                <i class="ph ph-user-circle"></i>
+                            </a>
+                        @elseif ($role === 'ROLE_EMPLOYEE')
+                            <a class="nav-item" href="{{ url('/employee/menuEmployee') }}">
+                                <i class="ph ph-user-circle"></i>
+                            </a>
+                        @elseif (in_array($role, ['ROLE_USER', 'ROLE_CONDUCTEUR', 'ROLE_PASSAGER', 'ROLE_CHAUFFEURPASSAGER']))
+                            <a class="nav-item" href="{{ url('/user/menuCustomer') }}">
+                                <i class="ph ph-user-circle"></i>
+                            </a>
+                        @endif
+                    @endauth
+
+                    @guest
                         <a class="nav-item" href="{{ url('/login') }}">
                             <i class="ph ph-user-circle-plus"></i>
                         </a>
-                    @endif
+                    @endguest
 
                     <a class="nav-item" href="{{ url('/contact') }}">
                         <i class="ph ph-envelope"></i>
                     </a>
+
                 </div>
             </div>
         </nav>
@@ -63,9 +68,9 @@
 
     <footer>
         <p class="footer-text">Ecoride@arcadia.fr</p>
-        <p class="footer-text"><a href="{{ url('/mentions-legales') }}">Mentions légales</a></p>
+        <p class="footer-text">
+            <a href="{{ url('/mentions-legales') }}">Mentions légales</a>
+        </p>
     </footer>
-
-
 </body>
 </html>

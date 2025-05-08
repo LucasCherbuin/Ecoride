@@ -77,7 +77,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('user')->onDelete('cascade');
             $table->foreignId('conducteur_id')->constrained('conducteur')->onDelete('cascade');
             $table->foreignId('status_id')->constrained('status')->onDelete('cascade');
-            $table->timestamps();
         });
 
         Schema::create('avis', function (Blueprint $table) {

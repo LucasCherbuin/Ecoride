@@ -11,6 +11,7 @@ class RoleMiddleware
 {
     public function handle($request, Closure $next, ...$role)
     {
+
         // Récupère l'utilisateur actuellement authentifié
         $user = Auth::user();
 

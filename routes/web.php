@@ -10,11 +10,6 @@ use App\Http\Controllers\RechercheCovoiturageController;
 use App\Http\Livewire\RechercheCovoiturage;
 
 
-    require base_path('routes/auth.php');
-    require base_path('routes/pageCustomer.php');
-    require base_path('routes/pageEmployee.php');
-    require base_path('routes/pagesAdmin.php');
-
 
         Route::get('/', function () {
             return view('welcome');

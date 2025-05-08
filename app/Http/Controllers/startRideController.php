@@ -6,9 +6,7 @@ namespace App\Http\Controllers;
 // Importation des modèles nécessaires
 use App\Models\Status;         // Modèle pour les statuts de covoiturage (prévision, en cours, terminé...)
 use App\Models\Covoiturage;    // Modèle principal du trajet
-use App\Models\User;           // Modèle utilisateur
 use Illuminate\Support\Facades\Mail; // Facade Laravel pour envoyer des e-mails
-use Illuminate\Http\Request;   // Pour gérer les requêtes HTTP
 use App\Mail\EcorideMail;      // Classe de mail personnalisée que tu as créée
 
 // Définition du contrôleur qui hérite de la classe de base Controller
@@ -21,35 +19,29 @@ class StartRideController extends Controller
         $covoiturage = Covoiturage::with('status')->findOrFail($id);
 
         try {
-            // Si le statut est "en prévision", on passe à "en cours"
             if ($covoiturage->status->label === 'en prévision') {
                 $nouveauStatus = Status::where('label', 'en cours')->first();
-            }
-            // Si le statut est "en cours", on passe à "terminé"
-            elseif ($covoiturage->status->label === 'en cours') {
+            } elseif ($covoiturage->status->label === 'en cours') {
                 $nouveauStatus = Status::where('label', 'termine')->first();
-
-                // Envoi d’e-mails aux passagers pour demander un avis
                 $this->sendAvisMail($covoiturage);
-            }
-            // Si le statut est autre que prévu, on retourne une erreur
-            else {
+            } else {
                 return response()->json(['message' => 'Statut non modifiable.'], 400);
             }
 
-            // Si on a bien trouvé un nouveau statut, on l’enregistre
             if ($nouveauStatus) {
-                $covoiturage->status_id = $nouveauStatus->id; // mise à jour du champ status
-                $covoiturage->save(); // sauvegarde dans la base
+                $covoiturage->status_id = $nouveauStatus->id;
+                $covoiturage->save();
             }
 
-            // Réponse JSON de succès
             return response()->json(['message' => 'Statut mis à jour.']);
         }
-        // En cas d’erreur, on capture l’exception et on renvoie une réponse avec le message d’erreur
         catch (\Exception $e) {
-            return response()->json(['message' => 'Une erreur est survenue.', 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Une erreur est survenue.',
+                'error' => $e->getMessage()
+            ], 500);
         }
+
     }
 
     // Fonction qui envoie un e-mail à chaque passager lorsque le trajet est terminé
