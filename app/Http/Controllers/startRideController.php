@@ -47,7 +47,7 @@ class StartRideController extends Controller
     // Fonction qui envoie un e-mail à chaque passager lorsque le trajet est terminé
     protected function sendAvisMail(Covoiturage $covoiturage)
     {
-        // On suppose que le modèle Covoiturage a une relation "passagers"
+
         $passagers = $covoiturage->passagers;
 
         // Pour chaque passager, on envoie un mail personnalisé

@@ -1,3 +1,5 @@
+<canvas id="CovoiturageChart" width="400" height="200"></canvas>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Appel AJAX pour récupérer les données du backend
