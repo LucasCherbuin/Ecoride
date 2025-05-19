@@ -26,11 +26,7 @@
                             @csrf
                             <button type="submit" class="btn btn-danger"><i class="ph ph-x-circle"></button>
                         </form>
-                        <form action="{{ route('avis.reject', $user->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-link"><i class="ph ph-envelope"></i></button>
-                        </form>
-
+                        <a href="https://mail.google.com/" target="_blank" rel="noopener"><i class="ph ph-envelope-simple"></i></a>
                     </td>
                 </tr>
             @endforeach

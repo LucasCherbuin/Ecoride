@@ -8,4 +8,7 @@ Route::middleware(['auth', 'role:ROLE_EMPLOYE'])->group(function () {
     Route::get('/employee/avis', [ValidationController::class, 'index'])->name('reviews.index');
     Route::post('/employee/avis/{id}/approve', [ValidationController::class, 'validateReview'])->name('reviews.approve');
     Route::post('/employee/avis/{id}/reject', [ValidationController::class, 'rejectReview'])->name('reviews.reject');
+    Route::get('/open-mail', function () {
+        return redirect()->away('https://mail.google.com/');
+    });
 });
