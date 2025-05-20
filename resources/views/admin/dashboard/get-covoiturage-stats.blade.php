@@ -1,7 +1,7 @@
 <canvas id="CovoiturageChart" width="400" height="200"></canvas>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", async () {
         // Envoie une requête GET pour récupérer les données JSON depuis ton backend
         fetch('/statistiques/covoiturages')
             .then(response => response.json())

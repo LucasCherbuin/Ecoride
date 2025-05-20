@@ -16,6 +16,7 @@ Route::middleware(['auth', 'role:ROLE_CONDUCTEUR|ROLE_CHAUFFEURPASSAGER'])->grou
     Route::post('/covoiturage/store', [CovoiturageController::class, 'store'])->name('covoiturage.store');
     Route::get('/covoiturageDemmarage', [StartRideController::class, 'begin']);
     Route::put('/covoiturageDemmarage/{id}/changer-statut', [StartRideController::class, 'begin']);
+
 });
 
 Route::middleware(['auth', 'role:ROLE_CONDUCTEUR|ROLE_CHAUFFEURPASSAGER|ROLE_PASSAGER'])->group(function () {

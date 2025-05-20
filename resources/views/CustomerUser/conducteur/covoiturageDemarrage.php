@@ -1,13 +1,20 @@
 @foreach($covoiturages as $covoiturage)
-    <div class="button" style="background-color: {{ $covoiturage->status->nom == 'en prévision' ? 'lightgreen' : 'red' }}">
+    @php
+        $label = $covoiturage->status->label ?? null;
+        $isPrevision = $label === 'en prévision';
+        $bgColor = $isPrevision ? 'lightgreen' : 'lightcoral';
+        $actionText = $isPrevision ? 'Démarrer' : 'Terminer';
+    @endphp
+
+    <div class="button mb-3 p-3 rounded">
         <div class="card-header">
-            <h3>{{ $covoiturage->status->nom == 'en prévision' ? 'Démarrer' : 'Terminer' }}</h3>
+            <h3>{{ $actionText }}</h3>
         </div>
         <div class="card-body">
             @include('components.annonce')
 
-            <button onclick="changerStatut{{ $covoiturage->id }})" class="btn btn-primary mt-2">
-                {{ $covoiturage->status->nom == 'en prévision' ? 'Démarrer le covoiturage' : 'Terminer le covoiturage' }}
+            <button onclick="changerStatut" class="btn btn-primary mt-2">
+                {{ $actionText }} le covoiturage
             </button>
         </div>
     </div>
@@ -29,8 +36,8 @@ function changerStatut(id) {
         return response.json();
     })
     .then(data => {
-        alert(data.message); // optionnel
-        location.reload();   // recharge la page pour mettre à jour l'affichage
+        alert(data.message); // Optionnel
+        location.reload();   // Recharge la page pour afficher le nouveau statut
     })
     .catch(error => {
         console.error('Erreur:', error);
