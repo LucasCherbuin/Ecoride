@@ -39,6 +39,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Role::class);
     }
+    public function hasRole($role)
+    {
+        return $this->roles()->where('label', $role)->exists();
+    }
 
     public function avis()
     {
